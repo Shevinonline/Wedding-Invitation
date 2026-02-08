@@ -141,9 +141,27 @@
                     <span>From 10:00 AM to 4:00 PM</span>
                 </div>
 
-                <!-- Venue Image -->
-                <div class="venue-image-wrapper">
-                    <img src="GCH.webp" alt="The Golden Crown Hotel" class="venue-image">
+                <!-- Venue Image Slider -->
+                <div class="venue-image-wrapper slider-container">
+                    <div class="slider-track" id="slider-track">
+                        <img src="G1.jpg" alt="Venue View 1" class="venue-image slide active">
+                        <img src="g2.jpg" alt="Venue View 2" class="venue-image slide">
+                        <img src="G3.jpg" alt="Venue View 3" class="venue-image slide">
+                        <img src="g4.jpeg" alt="Venue View 4" class="venue-image slide">
+                    </div>
+                    <button class="slider-btn prev-btn" id="prev-btn" aria-label="Previous Slide">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="slider-btn next-btn" id="next-btn" aria-label="Next Slide">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="slider-indicators" id="slider-indicators"></div>
                 </div>
 
                 <!-- Map Embed -->
