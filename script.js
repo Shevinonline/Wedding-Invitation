@@ -278,8 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- Falling Lotus Animation Logic ---
-    function spawnFallingLotus() {
+    // --- Falling Animation Logic ---
+    function spawnFallingItem(imageSrc) {
         // Create container if not exists
         let container = document.getElementById('falling-container');
         if (!container) {
@@ -288,41 +288,43 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(container); // Append to body, not specific section
         }
 
-        const lotus = document.createElement('img');
-
-        // Randomly choose between Lotus and Rose
-        const images = ['vibrant-lotus-flower-illustratio.png', 'pngtree-red-rose-clipart-isolate.png'];
-        const randomImage = images[Math.floor(Math.random() * images.length)];
-
-        lotus.src = randomImage;
-        lotus.classList.add('falling-lotus');
+        const item = document.createElement('img');
+        item.src = imageSrc;
+        item.classList.add('falling-lotus'); // Re-use same class for animation
 
         // Random Start Position
         const startLeft = Math.random() * 90 + 5; // 5% to 95%
-        lotus.style.left = startLeft + '%';
+        item.style.left = startLeft + '%';
 
         // Random Size
         const size = Math.random() * 30 + 30; // 30px to 60px
-        lotus.style.width = size + 'px';
+        item.style.width = size + 'px';
 
         // Random Duration
         const duration = Math.random() * 5 + 5; // 5s to 10s
-        lotus.style.animationDuration = duration + 's';
+        item.style.animationDuration = duration + 's';
 
         // Random Delay
         const delay = Math.random() * 2;
-        lotus.style.animationDelay = delay + 's';
+        item.style.animationDelay = delay + 's';
 
-        container.appendChild(lotus);
+        container.appendChild(item);
 
         // Remove after animation
         setTimeout(() => {
-            lotus.remove();
+            item.remove();
         }, (duration + delay) * 1000);
     }
 
-    // Spawn a lotus every 2.5 seconds (one by one)
-    setInterval(spawnFallingLotus, 2500);
+    // Spawn Rose every 3 seconds
+    setInterval(() => spawnFallingItem('pngtree-red-rose-clipart-isolate.png'), 3000);
+
+    // Spawn Lotus every 5 seconds
+    setInterval(() => spawnFallingItem('vibrant-lotus-flower-illustratio.png'), 5000);
+
+    // Initial Spawns
+    spawnFallingItem('pngtree-red-rose-clipart-isolate.png');
+    spawnFallingItem('vibrant-lotus-flower-illustratio.png');
     // Initial Spawn
     spawnFallingLotus();
 
