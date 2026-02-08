@@ -289,7 +289,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const lotus = document.createElement('img');
-        lotus.src = 'vibrant-lotus-flower-illustratio.png';
+
+        // Randomly choose between Lotus and Rose
+        const images = ['vibrant-lotus-flower-illustratio.png', 'pngtree-red-rose-clipart-isolate.png'];
+        const randomImage = images[Math.floor(Math.random() * images.length)];
+
+        lotus.src = randomImage;
         lotus.classList.add('falling-lotus');
 
         // Random Start Position
