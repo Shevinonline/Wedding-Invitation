@@ -1375,4 +1375,10 @@ footer {
     .program-illustration img {
         width: 100%;
     }
+
+    .section-subtitle {
+        margin-top: -1rem;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
 }
