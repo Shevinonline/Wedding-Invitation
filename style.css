@@ -1334,3 +1334,45 @@ footer {
     z-index: 1000;
     /* Below preloader */
 }
+
+/* --- Final Mobile Polish (< 480px) --- */
+@media (max-width: 480px) {
+    :root {
+        --spacing-xl: 4rem;
+        /* Reduce vertical spacing */
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-content .name {
+        font-size: 3.5rem;
+    }
+
+    .rsvp-form-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .time-box {
+        padding: 0.8rem;
+        width: 44%;
+        /* Fit 2 side by side tightly */
+    }
+
+    .time-box span:first-child {
+        font-size: 2rem;
+    }
+
+    .program-illustration img {
+        width: 100%;
+    }
+}
