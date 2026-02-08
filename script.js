@@ -169,4 +169,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
+    // --- Audio Control for Background Video ---
+    const audioBtn = document.getElementById('audio-control');
+    const videoIframe = document.getElementById('hero-video-iframe');
+    let isMuted = true;
+
+    if (audioBtn && videoIframe) {
+        audioBtn.addEventListener('click', () => {
+            const iconMute = audioBtn.querySelector('.icon-mute');
+            const iconUnmute = audioBtn.querySelector('.icon-unmute');
+            const textSpan = audioBtn.querySelector('span');
+
+            if (isMuted) {
+                // Unmute
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                // Also ensure it's playing just in case
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+                iconMute.style.display = 'none';
+                iconUnmute.style.display = 'block';
+                textSpan.innerText = 'Sound Off';
+                isMuted = false;
+            } else {
+                // Mute
+                videoIframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+
+                iconMute.style.display = 'block';
+                iconUnmute.style.display = 'none';
+                textSpan.innerText = 'Sound On';
+                isMuted = true;
+            }
+        });
+    }
+
 });
