@@ -58,12 +58,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1300);
     }
 
-    // User taps "Tap to Open" → play video
+    // Audio Elements
+    const bgMusic = document.getElementById('bg-music');
+    const audioToggleBtn = document.getElementById('audio-toggle-btn');
+    const iconSoundOn = document.querySelector('.icon-sound-on');
+    const iconSoundOff = document.querySelector('.icon-sound-off');
+
+    // Mute/Unmute Toggle Logic
+    let isMusicPlaying = false; // Note: changes dynamically based on play state
+
+    if (audioToggleBtn && bgMusic) {
+        audioToggleBtn.addEventListener('click', () => {
+            if (bgMusic.paused || bgMusic.muted) {
+                // Play / Unmute
+                bgMusic.muted = false;
+                bgMusic.play().catch(e => console.log("Audio play blocked", e));
+                iconSoundOff.classList.add('hidden');
+                iconSoundOn.classList.remove('hidden');
+            } else {
+                // Pause / Mute
+                bgMusic.pause(); // we can pause since it's background music
+                iconSoundOn.classList.add('hidden');
+                iconSoundOff.classList.remove('hidden');
+            }
+        });
+    }
+
+    // User taps "Tap to Open" → play video & music
     function onTap() {
         if (!introVideo || !tapPrompt) return;
 
         tapPrompt.classList.add('hidden');
 
+        // Play video
         introVideo.muted = false;
         introVideo.volume = 1.0;
         introVideo.classList.add('playing');
@@ -71,6 +98,19 @@ document.addEventListener('DOMContentLoaded', () => {
             introVideo.muted = true;
             introVideo.play();
         });
+
+        // Play Background Music
+        if (bgMusic) {
+            bgMusic.muted = false;
+            bgMusic.play().then(() => {
+                iconSoundOff.classList.add('hidden');
+                iconSoundOn.classList.remove('hidden');
+            }).catch(() => {
+                // If browser blocks audio autoplay even after tap, reflect on icon
+                iconSoundOn.classList.add('hidden');
+                iconSoundOff.classList.remove('hidden');
+            });
+        }
 
         introVideo.addEventListener('ended', revealMainSite, { once: true });
 
