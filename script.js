@@ -26,45 +26,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Preloader Counter Logic
-    const preloader = document.getElementById('preloader');
-    const counterElement = document.getElementById('counter');
+    // --- Video Intro Screen (shows immediately on load) ---
+    const videoIntro = document.getElementById('video-intro');
+    const tapPrompt = document.getElementById('tap-prompt');
+    const introVideo = document.getElementById('intro-video');
+    const videoCurtain = document.getElementById('video-curtain');
 
-    if (counterElement && preloader) {
-        // Start: 2018.12
-        // End: 2026.07
-        let currentYear = 2018;
-        let currentMonth = 12;
+    // Lock scroll while video intro is showing
+    document.body.style.overflow = 'hidden';
 
-        const endYear = 2026;
-        const endMonth = 7;
-
-        // Speed of counter (ms per update)
-        const intervalTime = 30;
-
-        const updateCounter = setInterval(() => {
-            // Format month to 2 digits
-            const formattedMonth = currentMonth < 10 ? `0${currentMonth}` : currentMonth;
-            counterElement.textContent = `${currentYear}.${formattedMonth}`;
-
-            // Check if reached end date
-            if (currentYear === endYear && currentMonth === endMonth) {
-                clearInterval(updateCounter);
-
-                // Animation complete, hide preloader
-                setTimeout(() => {
-                    preloader.classList.add('hide');
-                }, 800); // Pause briefly at final date before fading
-            } else {
-                // Increment date
-                currentMonth++;
-                if (currentMonth > 12) {
-                    currentMonth = 1;
-                    currentYear++;
-                }
-            }
-        }, intervalTime);
+    // Show the video intro right away
+    if (videoIntro) {
+        videoIntro.classList.add('visible');
     }
+
+    // After video ends → bloom curtain → reveal the main site
+    function revealMainSite() {
+        if (!videoCurtain || !videoIntro) return;
+
+        videoCurtain.classList.add('bloom');
+
+        // Slower initial pause to let the bloom expand nicely
+        setTimeout(() => {
+            videoIntro.classList.add('exit');
+            document.body.style.overflow = '';
+
+            // Faster removal for a snappy reveal
+            setTimeout(() => {
+                videoIntro.remove();
+            }, 800);
+        }, 1300);
+    }
+
+    // User taps "Tap to Open" → play video
+    function onTap() {
+        if (!introVideo || !tapPrompt) return;
+
+        tapPrompt.classList.add('hidden');
+
+        introVideo.muted = false;
+        introVideo.volume = 1.0;
+        introVideo.classList.add('playing');
+        introVideo.play().catch(() => {
+            introVideo.muted = true;
+            introVideo.play();
+        });
+
+        introVideo.addEventListener('ended', revealMainSite, { once: true });
+
+        const safeDuration = introVideo.duration
+            ? (introVideo.duration + 2) * 1000
+            : 20000;
+        setTimeout(revealMainSite, safeDuration);
+    }
+
+    if (tapPrompt) {
+        tapPrompt.addEventListener('click', onTap, { once: true });
+        tapPrompt.addEventListener('touchstart', onTap, { passive: true, once: true });
+    }
+
+
 
     // --- Wedding Countdown Timer ---
     const countdownDate = new Date("July 6, 2026 00:00:00").getTime();
@@ -152,14 +173,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 // mode: 'no-cors' // Use this if CORS issues arise, but error handling is limited
             })
                 .then(response => {
-                    // If using no-cors, response is opaque, so just assume success or check status if possible
-                    alert('Thank you! Your RSVP has been sent.');
+                    // Start success transition
                     rsvpForm.reset();
                     button.innerText = 'Sent!';
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }, 3000);
+
+                    const videoOverlay = document.getElementById('success-video-overlay');
+                    const gateVideo = document.getElementById('gate-video');
+                    const thankYouSection = document.getElementById('rsvp-thank-you');
+
+                    if (videoOverlay && gateVideo && thankYouSection) {
+                        // 1. Show the video overlay
+                        videoOverlay.classList.remove('hidden');
+
+                        // 2. Play the video
+                        gateVideo.muted = false; // Optional depending on if it has audio
+                        gateVideo.play().catch(e => {
+                            // Autoplay block fallback
+                            gateVideo.muted = true;
+                            gateVideo.play();
+                        });
+
+                        // Lock scrolling
+                        document.body.style.overflow = 'hidden';
+
+                        // 3. Listen for video end to reveal Thank you card
+                        gateVideo.addEventListener('ended', () => {
+                            // Hide video overlay
+                            videoOverlay.classList.add('hidden');
+                            document.body.style.overflow = '';
+
+                            // Swap form for thank you
+                            rsvpForm.classList.add('hidden');
+                            thankYouSection.classList.remove('hidden');
+
+                            // Scroll to the thank you section
+                            thankYouSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, { once: true });
+                    } else {
+                        // Fallback if elements not found
+                        alert('Thank you! Your RSVP has been sent.');
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        }, 3000);
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -169,38 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
-    // --- Audio Control for Background Video ---
-    const audioBtn = document.getElementById('audio-control');
-    const videoIframe = document.getElementById('hero-video-iframe');
-    let isMuted = true;
 
-    if (audioBtn && videoIframe) {
-        audioBtn.addEventListener('click', () => {
-            const iconMute = audioBtn.querySelector('.icon-mute');
-            const iconUnmute = audioBtn.querySelector('.icon-unmute');
-            const textSpan = audioBtn.querySelector('span');
 
-            if (isMuted) {
-                // Unmute
-                videoIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                // Also ensure it's playing just in case
-                videoIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-
-                iconMute.style.display = 'none';
-                iconUnmute.style.display = 'block';
-                textSpan.innerText = 'Sound Off';
-                isMuted = false;
-            } else {
-                // Mute
-                videoIframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-
-                iconMute.style.display = 'block';
-                iconUnmute.style.display = 'none';
-                textSpan.innerText = 'Sound On';
-                isMuted = true;
-            }
-        });
-    }
 
 
     // --- Venue Image Slider Logic ---

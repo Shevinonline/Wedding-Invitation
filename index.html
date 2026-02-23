@@ -15,90 +15,181 @@
 </head>
 
 <body>
-    <!-- Envelope Intro Section -->
-    <!-- Preloader Section -->
-    <div id="preloader" class="preloader">
-        <div class="counter-wrapper">
-            <span class="prefix">Est.</span>
-            <div id="counter" class="counter">2018.12</div>
+    <!-- ===== Video Intro Screen ===== -->
+    <div id="video-intro" class="video-intro">
+        <!-- Tap Prompt Overlay -->
+        <div id="tap-prompt" class="tap-prompt">
+            <div class="tap-prompt-inner">
+                <div class="tap-envelope-icon">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="14" width="56" height="38" rx="4" stroke="#FFFFFF" stroke-width="2" />
+                        <path d="M4 18l28 20 28-20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                        <!-- Wax seal -->
+                        <circle cx="32" cy="34" r="8" fill="#D45D79" opacity="0.9" />
+                        <text x="32" y="38" text-anchor="middle" font-size="9" fill="white"
+                            font-family="serif">&amp;</text>
+                    </svg>
+                </div>
+                <p class="tap-to-open-text">Tap to Open</p>
+                <div class="tap-ripple"></div>
+            </div>
         </div>
+
+        <!-- The actual MP4 video -->
+        <video id="intro-video" class="intro-video" src="inv.mp4" playsinline preload="auto" muted></video>
+
+        <!-- Curtain transition overlay (blooms at end) -->
+        <div id="video-curtain" class="video-curtain"></div>
     </div>
 
+    <!-- ===================================================== -->
+
     <header id="hero" class="hero-section">
-        <div class="hero-video-wrapper">
-            <iframe id="hero-video-iframe"
-                src="https://www.youtube.com/embed/ov5dxEFHbyI?autoplay=1&mute=1&playsinline=1&controls=0&loop=1&playlist=ov5dxEFHbyI&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&enablejsapi=1"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
+        <div class="hero-bg-image-wrapper">
+            <img src="SMK00324.jpg" alt="Hansi & Shevin" class="hero-bg-image">
         </div>
         <div class="hero-overlay"></div>
+
         <div class="hero-content">
-            <p class="eyebrow fade-in">We Are Getting Married</p>
+            <!-- Eyebrow -->
+            <p class="hero-eyebrow fade-in">Save the Date</p>
 
-            <div class="names-container fade-in">
-                <h1 class="name">Hansi</h1>
-                <div class="ampersand-wrapper">
-                    <span>&</span>
-                </div>
-                <h1 class="name">Shevin</h1>
+            <!-- Names on one line -->
+            <h1 class="hero-names fade-in">Hansani <em>&</em> Shevin</h1>
+
+            <!-- Thin rule -->
+            <div class="hero-rule fade-in"></div>
+
+            <!-- Date: month · big day · year -->
+            <div class="hero-date fade-in">
+                <span class="hero-date-side">July</span>
+                <span class="hero-date-day">06</span>
+                <span class="hero-date-side">2026</span>
             </div>
 
-            <div class="hero-divider fade-in">
-                <span class="diamond">✦</span>
-            </div>
-
-            <p class="date fade-in">JULY 06, 2026</p>
-
-            <div class="hero-footer fade-in">
-                <p>CONFIRM YOUR ATTENDANCE</p>
-                <a href="#rsvp" class="scroll-down">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="white" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </a>
-            </div>
+            <!-- RSVP bordered button -->
+            <a href="#rsvp" class="hero-rsvp-btn fade-in">RSVP</a>
         </div>
 
-        <button id="audio-control" class="audio-control fade-in" aria-label="Unmute Video">
-            <svg class="icon-mute" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
+        <!-- Scroll down -->
+        <div class="hero-scroll fade-in">
+            <span>Scroll Down</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
             </svg>
-            <svg class="icon-unmute" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" style="display: none;">
-                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-            <span>Sound On</span>
-        </button>
+        </div>
     </header>
+
+    <!-- Couple Section -->
+    <section id="couple" class="couple-section">
+        <div class="container couple-container">
+            <!-- Bride Card -->
+            <div class="couple-card">
+                <!-- Using placeholder unsplash image temporarily -->
+                <img src="brid.jpg" alt="Hansani" class="couple-img">
+                <div class="couple-overlay">
+                    <h3 class="couple-name">Hansani</h3>
+                    <p class="couple-role">THE BRIDE</p>
+                    <p class="couple-desc">
+                        I am so incredibly blessed and excited to spend every day of my life with my best friend,
+                        building a future filled with love, laughter, and endless memories.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groom Card -->
+            <div class="couple-card">
+                <img src="groom.jpg" alt="Shevin" class="couple-img">
+                <div class="couple-overlay">
+                    <h3 class="couple-name">Shevin</h3>
+                    <p class="couple-role">THE GROOM</p>
+                    <p class="couple-desc">
+                        I am so incredibly blessed and excited to spend every day of my life with my best friend,
+                        building a future filled with love, laughter, and endless memories.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Countdown Section -->
     <section id="countdown" class="countdown-section">
-        <div class="container">
-            <h2 class="section-title white">Countdown</h2>
-            <p class="section-subtitle">For the most special day of our lives</p>
+        <div class="container countdown-container-modern">
+            <div class="countdown-header-modern">
+                <svg class="heart-icon-modern" viewBox="0 0 24 24" fill="none" stroke="#5CBA76" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                    </path>
+                </svg>
+                <p class="eyebrow-modern">WE ARE</p>
+                <h2 class="section-title-modern">Getting Married</h2>
+                <p class="countdown-desc-modern">
+                    Today and always, beyond tomorrow, we choose each other. With love as our guide and<br>
+                    friendship as our foundation, we step into this new chapter hand in hand, grateful for the
+                    journey<br>
+                    that brought us together and excited for the forever that lies ahead.
+                </p>
+                <p class="couple-signature-modern">- Hansani &amp; Shevin -</p>
+            </div>
+
             <div class="timer-container">
-                <div class="time-box">
-                    <span id="days">00</span>
-                    <span class="label">Days</span>
+                <div class="time-item-modern">
+                    <div class="time-box">
+                        <span id="days">00</span>
+                    </div>
+                    <span class="label">DAYS</span>
                 </div>
-                <div class="time-box">
-                    <span id="hours">00</span>
-                    <span class="label">Hours</span>
+                <div class="time-item-modern">
+                    <div class="time-box">
+                        <span id="hours">00</span>
+                    </div>
+                    <span class="label">HOURS</span>
                 </div>
-                <div class="time-box">
-                    <span id="minutes">00</span>
-                    <span class="label">Minutes</span>
+                <div class="time-item-modern">
+                    <div class="time-box">
+                        <span id="minutes">00</span>
+                    </div>
+                    <span class="label">MINUTES</span>
                 </div>
-                <div class="time-box">
-                    <span id="seconds">00</span>
-                    <span class="label">Seconds</span>
+                <div class="time-item-modern">
+                    <div class="time-box">
+                        <span id="seconds">00</span>
+                    </div>
+                    <span class="label">SECONDS</span>
                 </div>
             </div>
         </div>
@@ -377,8 +468,57 @@
                     Send confirmation
                 </button>
             </form>
+
+            <!-- Thank You / Success Message (Hidden Initial State) -->
+            <div id="rsvp-thank-you" class="rsvp-thank-you hidden">
+                <h3 class="thank-you-title">Thank you for confirming your attendance</h3>
+                <p class="thank-you-msg">We are so excited to know that you will be joining us on our special day.</p>
+                <p class="thank-you-msg">Thank you for being part of our story.</p>
+                <p class="thank-you-msg">We look forward to seeing you on <strong>July 06, 2026</strong> at The Golden
+                    Crown Hotel, Kandy.</p>
+
+                <p class="couple-signature-modern" style="font-size: 1.8rem; margin: 2rem 0;">— Hansani &amp; Shevin —
+                </p>
+
+                <div class="thank-you-actions">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+of+Hansani+%26+Shevin&dates=20260706T100000/20260706T160000&details=Wedding+Ceremony+at+The+Golden+Crown+Hotel&location=The+Golden+Crown+Hotel,+Kandy&sf=true&output=xml"
+                        target="_blank" class="calendar-btn green">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Add to Calendar
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+of+Hansani+%26+Shevin&dates=20260706T100000/20260706T160000&details=Wedding+Ceremony+at+The+Golden+Crown+Hotel&location=The+Golden+Crown+Hotel,+Kandy&sf=true&output=xml"
+                        target="_blank" class="calendar-btn dark">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Google Calendar
+                    </a>
+                </div>
+
+                <p class="thank-you-footer">
+                    If for any reason you cannot attend, we would greatly appreciate if you could let us know in
+                    advance.<br>
+                    You can contact us via WhatsApp.<br>
+                    <span>Hansani: +94 77 XXX XXXX | Shevin: +94 77 XXX XXXX</span>
+                </p>
+            </div>
         </div>
     </section>
+
+    <!-- Success Video Overlay (Gate Video) -->
+    <div id="success-video-overlay" class="success-video-overlay hidden">
+        <video id="gate-video" src="gateVideo.mp4" playsinline preload="auto" muted></video>
+    </div>
 
     <footer>
         <p>Made with ❤️ for Hansi & Shevin</p>

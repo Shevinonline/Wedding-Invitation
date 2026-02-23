@@ -132,12 +132,16 @@ h3,
     color: var(--color-rose);
 }
 
-/* Hero Section */
+/* =============================================
+   HERO SECTION  (reference-matched redesign)
+   ============================================= */
+
 .hero-section {
     height: 100vh;
+    min-height: 560px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     position: relative;
@@ -145,241 +149,192 @@ h3,
     color: #FFFFFF;
 }
 
-/* Video Background Wrapper */
-.hero-video-wrapper {
+/* Pseudo-element to balance the space taken by hero-scroll, keeping hero-content centered */
+.hero-section::before {
+    content: '';
+    display: block;
+    height: 80px;
+    width: 100%;
+}
+
+/* --- Background Image --- */
+.hero-bg-image-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-bg-image {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
+    object-fit: cover;
+    object-position: center center;
+    animation: heroBgZoom 20s ease-in-out infinite alternate;
 }
 
-.hero-video-wrapper iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-}
+@keyframes heroBgZoom {
+    from {
+        transform: scale(1);
+    }
 
-/* Force 16:9 Aspect Ratio Coverage */
-@media (min-aspect-ratio: 16/9) {
-    .hero-video-wrapper iframe {
-        height: 56.25vw;
-        /* 100 * 9 / 16 */
+    to {
+        transform: scale(1.06);
     }
 }
 
-@media (max-aspect-ratio: 16/9) {
-    .hero-video-wrapper iframe {
-        width: 177.78vh;
-        /* 100 * 16 / 9 */
-    }
-}
-
+/* --- Overlay (dark, improves text contrast) --- */
 .hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.4);
-    /* Dark overlay for text readability */
     z-index: 1;
 }
 
+/* --- Content stack --- */
 .hero-content {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 800px;
+    gap: 1.2rem;
+    width: 90%;
+    max-width: 980px;
+    padding: 0 1rem;
 }
 
-.eyebrow {
+/* --- "SAVE THE DATE" eyebrow --- */
+.hero-eyebrow {
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    color: #FFFFFF;
-    margin: 0;
-    opacity: 0.9;
-}
-
-.names-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 1rem 0;
-}
-
-.name {
-    font-family: var(--font-heading);
-    font-size: clamp(5rem, 12vw, 8rem);
+    font-size: 0.72rem;
     font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0;
+}
+
+/* --- Names: single line, large serif --- */
+.hero-names {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 1.05;
+    margin: 0;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+    white-space: nowrap;
+}
+
+.hero-names em {
     font-style: italic;
+    font-size: 0.75em;
+    /* slightly smaller & softer than the names */
+    margin: 0 0.15em;
+    color: #FFFFFF;
+}
+
+/* --- Thin rule --- */
+.hero-rule {
+    width: min(340px, 55%);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.65);
+    margin: 0.2rem 0;
+}
+
+/* --- Date row --- */
+.hero-date {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.hero-date-side {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.04em;
+}
+
+.hero-date-day {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 600;
     line-height: 1;
     color: #FFFFFF;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
 }
 
-.ampersand-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.5rem 0;
-}
-
-.ampersand-wrapper span {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    color: #FFD700;
-    /* Gold/Yellow */
-    font-style: italic;
-    /* Optional: Circle background if preferred, reference has a subtle glow or circle */
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.hero-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 300px;
-    position: relative;
-    margin: 1rem 0;
-}
-
-.hero-divider::before,
-.hero-divider::after {
-    content: '';
-    height: 1px;
-    background: rgba(255, 255, 255, 0.6);
-    flex: 1;
-}
-
-.hero-divider .diamond {
-    color: #FFD700;
-    /* Gold Star/Diamond */
-    padding: 0 15px;
-    font-size: 1.2rem;
-}
-
-.date {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
-    font-style: italic;
+/* --- RSVP bordered button --- */
+.hero-rsvp-btn {
+    display: inline-block;
+    padding: 0.75rem 3rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
     color: #FFFFFF;
-    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    backdrop-filter: blur(4px);
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    margin-top: 0.4rem;
 }
 
-.hero-footer {
-    position: absolute;
-    bottom: 5vh;
-    left: 0;
-    width: 100%;
+.hero-rsvp-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #FFFFFF;
+}
+
+/* --- Scroll down label + chevron --- */
+.hero-scroll {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    animation: fadeInUp 2s ease-out 1s backwards;
-}
-
-.hero-footer p {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: #FFFFFF;
-    margin: 0;
-}
-
-.scroll-down {
-    animation: bounce 2s infinite;
+    z-index: 2;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
-    padding-top: 10px;
+    animation: heroScrollBounce 2.4s ease-in-out infinite;
+    padding-bottom: 25px;
+    /* ensure slight gap from true bottom edge */
+    width: 100%;
 }
 
-.audio-control {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 30px;
-    padding: 10px 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #FFFFFF;
+.hero-scroll span {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
-    margin-bottom: 0;
 }
 
-.audio-control:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.6);
-}
-
-.audio-control svg {
-    width: 18px;
-    height: 18px;
-}
-
-/* Mobile positioning for audio button */
-@media (max-width: 768px) {
-    .audio-control {
-        bottom: 20px;
-        right: 20px;
-        padding: 8px 14px;
-        font-size: 0.7rem;
-    }
-}
-
-@keyframes bounce {
+@keyframes heroScrollBounce {
 
     0%,
-    20%,
-    50%,
-    80%,
     100% {
         transform: translateY(0);
     }
 
-    40% {
-        transform: translateY(-10px);
-    }
-
-    60% {
-        transform: translateY(-5px);
+    50% {
+        transform: translateY(7px);
     }
 }
 
+/* --- Fade-in animation (shared) --- */
 .fade-in {
-    animation: fadeIn 1.5s ease-out forwards;
+    animation: fadeIn 1.2s ease-out forwards;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(18px);
     }
 
     to {
@@ -388,101 +343,376 @@ h3,
     }
 }
 
-/* Countdown Section */
-.countdown-section {
-    padding: var(--spacing-xl) 1rem;
-    background-color: #D45D79;
-    /* Lotus Pink Background */
-    color: #FFFFFF;
-    text-align: center;
+/* Stagger the fade-ins */
+.hero-eyebrow {
+    animation-delay: 0.1s;
+    opacity: 0;
 }
 
-.countdown-section .section-title.white {
-    color: #FFFFFF;
+.hero-names {
+    animation-delay: 0.3s;
+    opacity: 0;
 }
 
-.countdown-section .section-title.white::after {
-    background: #FFFFFF;
-    /* White underline */
+.hero-rule {
+    animation-delay: 0.5s;
+    opacity: 0;
 }
 
-.section-subtitle {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-size: 1.2rem;
-    margin-bottom: 3rem;
-    opacity: 0.9;
-    margin-top: -3rem;
-    /* Pull closer to title */
-    display: block;
+.hero-date {
+    animation-delay: 0.65s;
+    opacity: 0;
 }
 
-.timer-container {
+.hero-rsvp-btn {
+    animation-delay: 0.8s;
+    opacity: 0;
+}
+
+.hero-scroll {
+    animation-delay: 1s;
+    opacity: 0;
+}
+
+/* --- Mobile --- */
+@media (max-width: 600px) {
+    .hero-names {
+        font-size: clamp(2.2rem, 11vw, 3.5rem);
+        white-space: normal;
+    }
+
+    .hero-date {
+        gap: 0.8rem;
+    }
+
+    .hero-rsvp-btn {
+        padding: 0.7rem 2rem;
+        font-size: 0.68rem;
+    }
+
+    .hero-bg-image {
+        object-position: 60% center;
+    }
+}
+
+/* --- Short Screens --- */
+@media (max-height: 600px) {
+    .hero-section {
+        min-height: auto;
+    }
+
+    .hero-section::before {
+        height: 20px;
+    }
+
+    .hero-content {
+        gap: 0.6rem;
+    }
+
+    .hero-scroll {
+        padding-bottom: 10px;
+    }
+}
+
+
+/* --- Couple Section (Preview Detail Hover) --- */
+.couple-section {
+    padding: var(--spacing-xl) 5%;
+    background-color: #fdf4fb;
+    /* Very faint greenish tint matching reference */
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
 }
 
-.time-box {
-    background: rgba(255, 255, 255, 0.15);
-    /* Translucent white box */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 2rem;
-    width: 160px;
+.couple-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.couple-card {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    flex: 1 1 350px;
+    aspect-ratio: 1 / 1;
+    border-radius: 28px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
+}
+
+.couple-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.couple-overlay {
+    position: absolute;
+    inset: 0;
+    /* Dark semi-transparent gradient + blur */
+    background: linear-gradient(to bottom, rgba(30, 32, 28, 0.4), rgba(30, 32, 28, 0.8));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 2.5rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.couple-card:hover .couple-img {
+    transform: scale(1.05);
+    /* Slight zoom on image */
+}
+
+.couple-card:hover .couple-overlay {
+    opacity: 1;
+    /* Fade in the blur/overlay */
+}
+
+/* Stagger text elements entering from below */
+.couple-overlay>* {
+    transform: translateY(15px);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+    opacity: 0;
+}
+
+.couple-card:hover .couple-overlay>* {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.couple-card:hover .couple-overlay .couple-name {
+    transition-delay: 0.1s;
+}
+
+.couple-card:hover .couple-overlay .couple-role {
+    transition-delay: 0.15s;
+}
+
+.couple-card:hover .couple-overlay .couple-desc {
+    transition-delay: 0.2s;
+}
+
+.couple-card:hover .couple-overlay .social-icons {
+    transition-delay: 0.25s;
+}
+
+.couple-name {
+    font-family: var(--font-heading);
+    font-size: 3.2rem;
+    font-weight: 400;
+    margin-bottom: 0.1rem;
+    color: #FFF;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.couple-role {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.couple-desc {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 90%;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.social-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.social-icon:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Countdown Section Modern */
+.countdown-section {
+    padding: var(--spacing-xl) 1rem;
+    background-color: #fcf3fa;
+    /* Faint green matching reference */
+    text-align: center;
+    color: var(--color-text-primary);
+}
+
+.countdown-header-modern {
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.heart-icon-modern {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 1.5rem;
+}
+
+.eyebrow-modern {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #9a8a98;
+    /* soft greyish green */
+    margin-bottom: 0.8rem;
+}
+
+.section-title-modern {
+    font-family: var(--font-heading);
+    font-size: 4.5rem;
+    color: #413842;
+    /* Deep dark slate/green */
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.countdown-desc-modern {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: #857a83;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 2.5rem;
+}
+
+.couple-signature-modern {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 2.2rem;
+    color: #ba5ca7;
+    /* Vibrant green */
+
+}
+
+/* Time boxes container */
+.timer-container {
+    display: flex;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.time-item-modern {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.time-box {
+    background: #FFFFFF;
+    border-radius: 16px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
 
 .time-box:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.25);
 }
 
 .time-box span:first-child {
     font-family: var(--font-heading);
-    font-size: 3.5rem;
-    font-weight: 400;
+    font-size: 5rem;
+    font-weight: 500;
     line-height: 1;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #ba5ca2;
+    margin: 0;
 }
 
-.time-box .label {
+.time-item-modern .label {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    opacity: 0.9;
+    letter-spacing: 0.25em;
+    color: #9a8a99;
+    font-weight: 500;
 }
 
 /* Mobile Countdown */
 @media (max-width: 768px) {
+    .section-title-modern {
+        font-size: 3.5rem;
+    }
+
     .timer-container {
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .time-box {
-        width: 140px;
-        padding: 1.5rem;
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
     }
 
     .time-box span:first-child {
-        font-size: 2.5rem;
+        font-size: 4rem;
+    }
+
+    .countdown-desc-modern br {
+        display: none;
     }
 }
 
 @media (max-width: 480px) {
+    .countdown-desc-modern {
+        font-size: 0.95rem;
+    }
+
+    .section-title-modern {
+        font-size: 2.8rem;
+    }
+
+    .time-item-modern {
+        width: calc(50% - 0.75rem);
+        gap: 0.8rem;
+    }
+
     .time-box {
         width: 100%;
-        /* 1 per row (one by one) */
-        padding: 1rem;
-        margin-bottom: 0.5rem;
+        height: 120px;
     }
 }
 
@@ -1182,6 +1412,118 @@ h3,
     /* Slightly darker on hover */
 }
 
+/* --- RSVP Thank You Message --- */
+.rsvp-thank-you {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 4rem 3rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.thank-you-title {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: #38423B;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    font-style: italic;
+}
+
+.thank-you-msg {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.thank-you-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.calendar-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    text-decoration: none;
+    color: #FFF;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calendar-btn.green {
+    background: #50B066;
+}
+
+.calendar-btn.green:hover {
+    background: #409C54;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(80, 176, 102, 0.3);
+}
+
+.calendar-btn.dark {
+    background: #38423B;
+}
+
+.calendar-btn.dark:hover {
+    background: #2D352F;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(56, 66, 59, 0.3);
+}
+
+.thank-you-footer {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.6;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 2rem;
+}
+
+/* --- Success Video Overlay --- */
+.success-video-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.success-video-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#gate-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* or cover depending on preference */
+}
+
+/* Utilities used for swapping */
+.hidden {
+    display: none !important;
+}
+
 /* Mobile Adjustments for Form */
 @media (max-width: 768px) {
     .rsvp-form-card {
@@ -1426,63 +1768,293 @@ footer {
     }
 }
 
-/* --- Preloader (Date Counter) --- */
-.preloader {
+/* =========================================================
+   VIDEO INTRO SCREEN
+   ========================================================= */
+
+/* The full-screen video intro layer sits on top of everything,
+   but BELOW the preloader (z-index 9998). It starts hidden and
+   is revealed once the preloader fades out. */
+.video-intro {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #FDFBF7;
-    /* Cream/Off-White */
-    z-index: 9999;
+    background: #0a0608;
+    /* near-black with warm tint */
+    z-index: 9998;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+    overflow: hidden;
+    /* Hidden until preloader is done */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
 }
 
-.preloader.hide {
+.video-intro.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.video-intro.exit {
+    /* Bloom / curtain fade to white, then disappear */
+    animation: videoIntroExit 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes videoIntroExit {
+    0% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* ---- The MP4 video itself ---- */
+.intro-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 1;
+}
+
+.intro-video.playing {
+    opacity: 1;
+}
+
+/* ---- Tap-to-open prompt ---- */
+.tap-prompt {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at center,
+            rgba(30, 8, 16, 0.85) 0%,
+            rgba(10, 6, 8, 0.97) 100%);
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.tap-prompt.hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
 
-.counter-wrapper {
-    text-align: center;
-    color: #D45D79;
-    /* Lotus Pink */
+.tap-prompt-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.4rem;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.prefix {
+/* Envelope icon */
+.tap-envelope-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(212, 93, 121, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: tapIconFloat 3s ease-in-out infinite;
+    box-shadow:
+        0 0 0 0 rgba(212, 93, 121, 0.5),
+        0 8px 30px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tap-envelope-icon svg {
+    width: 52px;
+    height: 52px;
+}
+
+.tap-prompt-inner:active .tap-envelope-icon {
+    transform: scale(0.92);
+    box-shadow: 0 4px 15px rgba(212, 93, 121, 0.4);
+}
+
+@keyframes tapIconFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Pulse ring around icon */
+.tap-envelope-icon::before,
+.tap-envelope-icon::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(212, 93, 121, 0.5);
+    animation: tapPulse 2.5s ease-out infinite;
+}
+
+.tap-envelope-icon::after {
+    animation-delay: 1.25s;
+}
+
+@keyframes tapPulse {
+    0% {
+        width: 100px;
+        height: 100px;
+        opacity: 0.8;
+    }
+
+    100% {
+        width: 190px;
+        height: 190px;
+        opacity: 0;
+    }
+}
+
+/* "Tap to Open" text */
+.tap-to-open-text {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    opacity: 0.7;
-    color: #915F6D;
-    /* Mauve */
+    letter-spacing: 0.38em;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0;
+    animation: tapTextBlink 2.8s ease-in-out infinite;
 }
 
-.counter {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(4rem, 10vw, 8rem);
-    font-weight: 300;
-    font-variant-numeric: tabular-nums;
-    /* Prevents jittering */
-    letter-spacing: -2px;
-    line-height: 1;
+@keyframes tapTextBlink {
+
+    0%,
+    100% {
+        opacity: 0.82;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
 }
 
-/* Ensure navbar is hidden initially if needed, or z-index handles it */
-.navbar {
-    z-index: 1000;
-    /* Below preloader */
+/* Small ripple dot below text */
+.tap-ripple {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #D45D79;
+    animation: tapDotPulse 1.8s ease-in-out infinite;
 }
+
+@keyframes tapDotPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.6);
+        opacity: 0.4;
+    }
+}
+
+/* ---- Curtain / bloom transition overlay ---- */
+.video-curtain {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    background: radial-gradient(ellipse at center, #FDFBF7 0%, #FDFBF7 100%);
+    transform: scale(0);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: none;
+}
+
+.video-curtain.bloom {
+    animation: curtainBloom 1.8s cubic-bezier(0.65, 0.05, 0.36, 1) forwards;
+}
+
+@keyframes curtainBloom {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
+    50% {
+        transform: scale(2.5);
+        opacity: 1;
+        border-radius: 30%;
+    }
+
+    100% {
+        transform: scale(6);
+        opacity: 1;
+        border-radius: 0%;
+    }
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+    .tap-envelope-icon {
+        width: 86px;
+        height: 86px;
+    }
+
+    .tap-envelope-icon svg {
+        width: 42px;
+        height: 42px;
+    }
+
+    @keyframes tapPulse {
+        0% {
+            width: 86px;
+            height: 86px;
+            opacity: 0.8;
+        }
+
+        100% {
+            width: 170px;
+            height: 170px;
+            opacity: 0;
+        }
+    }
+
+    .tap-to-open-text {
+        font-size: 0.72rem;
+        letter-spacing: 0.3em;
+    }
+}
+
+/* =========================================================
+   END VIDEO INTRO SCREEN
+   ========================================================= */
+
+
+/* --- Final Mobile Polish (< 480px) --- */
 
 /* --- Final Mobile Polish (< 480px) --- */
 @media (max-width: 480px) {
