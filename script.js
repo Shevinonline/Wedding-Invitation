@@ -99,17 +99,23 @@ document.addEventListener('DOMContentLoaded', () => {
             introVideo.play();
         });
 
-        // Play Background Music
+        // Play Background Music (Force synchronous on touch/click)
         if (bgMusic) {
             bgMusic.muted = false;
-            bgMusic.play().then(() => {
-                iconSoundOff.classList.add('hidden');
-                iconSoundOn.classList.remove('hidden');
-            }).catch(() => {
-                // If browser blocks audio autoplay even after tap, reflect on icon
-                iconSoundOn.classList.add('hidden');
-                iconSoundOff.classList.remove('hidden');
-            });
+            bgMusic.volume = 1.0;
+            const playPromise = bgMusic.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    iconSoundOff.classList.add('hidden');
+                    iconSoundOn.classList.remove('hidden');
+                }).catch(error => {
+                    console.log("Audio autoplay prevented by mobile browser:", error);
+                    // If browser blocks audio autoplay even after tap, reflect on icon
+                    iconSoundOn.classList.add('hidden');
+                    iconSoundOff.classList.remove('hidden');
+                });
+            }
         }
 
         introVideo.addEventListener('ended', revealMainSite, { once: true });
@@ -122,7 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tapPrompt) {
         tapPrompt.addEventListener('click', onTap, { once: true });
-        tapPrompt.addEventListener('touchstart', onTap, { passive: true, once: true });
+        tapPrompt.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // prevents double-firing with click and explicitly signals user interaction
+            onTap();
+        }, { once: true });
     }
 
 
