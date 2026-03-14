@@ -229,35 +229,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     const videoOverlay = document.getElementById('success-video-overlay');
                     const gateVideo = document.getElementById('gate-video');
                     const thankYouSection = document.getElementById('rsvp-thank-you');
+                    const sorrySection = document.getElementById('rsvp-sorry');
+                    const finalSection = data.attendance === 'no' ? (sorrySection || thankYouSection) : thankYouSection;
 
-                    if (videoOverlay && gateVideo && thankYouSection) {
-                        // 1. Show the video overlay
-                        videoOverlay.classList.remove('hidden');
-
-                        // 2. Play the video
-                        gateVideo.muted = false; // Optional depending on if it has audio
-                        gateVideo.play().catch(e => {
-                            // Autoplay block fallback
-                            gateVideo.muted = true;
-                            gateVideo.play();
-                        });
-
-                        // Lock scrolling
-                        document.body.style.overflow = 'hidden';
-
-                        // 3. Listen for video end to reveal Thank you card
-                        gateVideo.addEventListener('ended', () => {
-                            // Hide video overlay
-                            videoOverlay.classList.add('hidden');
-                            document.body.style.overflow = '';
-
-                            // Swap form for thank you
+                    if (videoOverlay && gateVideo && finalSection) {
+                        if (data.attendance === 'no') {
+                            // Swap form for sorry section directly without video
                             rsvpForm.classList.add('hidden');
-                            thankYouSection.classList.remove('hidden');
+                            finalSection.classList.remove('hidden');
+                            finalSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                            // 1. Show the video overlay
+                            videoOverlay.classList.remove('hidden');
 
-                            // Scroll to the thank you section
-                            thankYouSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, { once: true });
+                            // 2. Play the video
+                            gateVideo.muted = false; // Optional depending on if it has audio
+                            gateVideo.play().catch(e => {
+                                // Autoplay block fallback
+                                gateVideo.muted = true;
+                                gateVideo.play();
+                            });
+
+                            // Lock scrolling
+                            document.body.style.overflow = 'hidden';
+
+                            // 3. Listen for video end to reveal Thank you card
+                            gateVideo.addEventListener('ended', () => {
+                                // Hide video overlay
+                                videoOverlay.classList.add('hidden');
+                                document.body.style.overflow = '';
+
+                                // Swap form for thank you section
+                                rsvpForm.classList.add('hidden');
+                                finalSection.classList.remove('hidden');
+
+                                // Scroll to the section
+                                finalSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, { once: true });
+                        }
                     } else {
                         // Fallback if elements not found
                         alert('Thank you! Your RSVP has been sent.');
