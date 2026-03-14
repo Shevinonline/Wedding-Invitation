@@ -8,8 +8,9 @@
     <meta name="description" content="Join us to celebrate our wedding day. Date, venue, and RSVP details.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -81,9 +82,11 @@
         </div>
     </header>
 
+
+
     <!-- Couple Section -->
     <section id="couple" class="couple-section">
-        <div class="container couple-container">
+        <div class="container couple-container reveal">
             <!-- Bride Card -->
             <div class="couple-card">
                 <!-- Using placeholder unsplash image temporarily -->
@@ -149,9 +152,11 @@
         </div>
     </section>
 
+
+
     <!-- Countdown Section -->
     <section id="countdown" class="countdown-section">
-        <div class="container countdown-container-modern">
+        <div class="container countdown-container-modern reveal">
             <div class="countdown-header-modern">
                 <svg class="heart-icon-modern" viewBox="0 0 24 24" fill="none" stroke="#5CBA76" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -197,9 +202,11 @@
         </div>
     </section>
 
+
+
     <!-- Location Section (Details of the Day) -->
     <section id="location" class="location-section">
-        <div class="container">
+        <div class="container reveal">
             <div class="location-header">
                 <div class="champagne-icon">
                     <!-- Simple SVG Champagne Icon matching reference style -->
@@ -295,9 +302,11 @@
         </div>
     </section>
 
+
+
     <!-- Program of the Day Section -->
     <section id="program" class="program-section">
-        <div class="container">
+        <div class="container reveal">
             <div class="program-header">
                 <div class="program-divider">
                     <span>✦</span>
@@ -345,6 +354,17 @@
                     </div>
                     <h3 class="event-title">Poruwa Ceremony</h3>
                     <p class="event-desc">Traditional traditions</p>
+                    <div class="floral-motif lotus">
+                        <!-- Delicate Lotus SVG (Gold accents, semi-transparent) -->
+                        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" opacity="0.6">
+                            <path d="M50 90 C 20 90, 10 60, 50 30 C 90 60, 80 90, 50 90 Z" fill="#FDEFF2"
+                                stroke="#D4AF37" stroke-width="2" />
+                            <path d="M50 80 C 30 80, 25 55, 50 35 C 75 55, 70 80, 50 80 Z" fill="rgba(255,255,255,0.4)"
+                                stroke="#D4AF37" stroke-width="1.5" />
+                            <path d="M50 70 C 40 70, 35 50, 50 40 C 65 50, 60 70, 50 70 Z" fill="#FDEFF2"
+                                stroke="#D4AF37" stroke-width="1" />
+                        </svg>
+                    </div>
                 </div>
 
                 <!-- Timeline Item 3: Registration -->
@@ -415,8 +435,10 @@
 
 
     </section>
+
+
     <section id="rsvp" class="rsvp-section">
-        <div class="container">
+        <div class="container reveal">
             <div class="rsvp-header">
                 <div class="rings-icon">
                     <img src="rings-illustration-tO3OeALU.png" alt="Wedding Rings Illustration"
@@ -462,10 +484,7 @@
                 </div>
 
                 <button type="submit" class="submit-btn confirm-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                    </svg>
-                    Send confirmation
+                    Confirm Our Happiness
                 </button>
             </form>
 
@@ -506,7 +525,7 @@
 
                 <p class="thank-you-footer">
                     <span style="color: #b28694;">RSVP By 5th May 2026 : Shevin +94 74 124 1661</span> <br><br>
-                    If for any reason you cannot attend, we would greatly appreciate if you could let us know in
+                    If any reason you cannot attend, we would greatly appreciate if you could let us know in
                     advance.<br>
                     You can contact us via WhatsApp.<br>
                     <span>Hansani: +94 76 794 9083 | Shevin: +94 74 124 1661</span>
@@ -537,6 +556,8 @@
         <video id="gate-video" src="gateVideo.mp4" playsinline preload="auto" muted></video>
     </div>
 
+
+
     <footer>
         <p>Made with ❤️ for Hansi & Shevin</p>
     </footer>
@@ -562,6 +583,9 @@
             <line x1="17" y1="9" x2="23" y2="15"></line>
         </svg>
     </button>
+
+    <!-- Antigravity Particles Overlay -->
+    <canvas id="petal-canvas"></canvas>
 
     <script src="script.js"></script>
 </body>

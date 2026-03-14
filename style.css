@@ -1,47 +1,48 @@
 :root {
-    /* Refined Color Palette */
+    /* Refined Luxury Color Palette */
     --color-bg-primary: #FFFFFF;
-    /* White */
-    --color-bg-secondary: #FEF8F9;
-    /* Very faint Rose tint for sections */
+    --color-bg-secondary: #FDEFF2;
+    /* Blush Pink */
 
-    --color-mauve: #915F6D;
-    /* Vintage Mauve (Primary Dark) */
-    --color-rose: #D49C9C;
-    /* English Rose (Secondary Soft) */
-    --color-rose-light: #EBCBCB;
-    /* Light Rose for backgrounds/hovers */
+    --color-mauve: #E8B4B8;
+    /* Dusty Rose for primary elements */
+    --color-rose: #E8B4B8;
+    /* Dusty Rose (Secondary Soft) */
+    --color-rose-light: #FDEFF2;
+    /* Light Blush for backgrounds/hovers */
 
-    --color-text-primary: #5C4033;
-    /* Dark Brown/Earth for main text */
-    --color-text-secondary: #915F6D;
-    /* Mauve for subtitles */
+    --color-text-primary: #333333;
+    /* Darker grey for primary text */
+    --color-text-secondary: #D4AF37;
+    /* Gold for subtitles */
 
-    --color-accent: #D49C9C;
-    /* English Rose Accent */
-    --color-border: rgba(145, 95, 109, 0.2);
+    --color-accent: #D4AF37;
+    /* Gold Accent */
+    --color-border: rgba(212, 175, 55, 0.3);
+    /* Gold border */
 
     /* Envelope Specifics */
-    --envelope-base: #915F6D;
-    --envelope-flap-gradient-start: #915F6D;
-    --envelope-flap-gradient-end: #AC7B88;
-    /* Slightly lighter/rosier mauve */
-    --seal-color: #FFFFFF;
+    --envelope-base: #E8B4B8;
+    --envelope-flap-gradient-start: #E8B4B8;
+    --envelope-flap-gradient-end: #D9A0A5;
+    /* Slightly lighter/rosier dusty rose */
+    --seal-color: #D4AF37;
 
     /* Typography */
-    --font-heading: 'Cormorant Garamond', serif;
-    --font-body: 'Montserrat', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    --font-names: 'Pinyon Script', cursive;
+    --font-body: 'Outfit', sans-serif;
 
     /* Spacing & Layout */
     --container-width: 1200px;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
-    --spacing-lg: 4rem;
-    --spacing-xl: 8rem;
+    --spacing-lg: 2.5rem;
+    --spacing-xl: 4.5rem;
 
     /* Transitions */
-    --transition-fast: 0.3s ease;
-    --transition-slow: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -56,10 +57,12 @@ html {
 
 body {
     font-family: var(--font-body);
+    font-weight: 300;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    letter-spacing: 0.05em;
 }
 
 /* Typography Utilities */
@@ -72,7 +75,8 @@ h3,
 }
 
 .section-title {
-    font-size: 3rem;
+    font-size: 3.5rem;
+    font-style: italic;
     text-align: center;
     margin-bottom: var(--spacing-lg);
     color: var(--color-mauve);
@@ -88,7 +92,7 @@ h3,
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, var(--color-mauve), var(--color-rose));
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
 }
 
 /* Navbar */
@@ -121,10 +125,11 @@ h3,
     text-decoration: none;
     color: var(--color-text-primary);
     margin-left: 2rem;
+    font-family: var(--font-body);
     font-weight: 500;
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     transition: var(--transition-fast);
 }
 
@@ -215,16 +220,30 @@ h3,
     margin: 0;
 }
 
-/* --- Names: single line, large serif --- */
+@keyframes goldenGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 30px rgba(212, 175, 55, 0.4);
+    }
+
+    100% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+}
+
+/* --- Names: single line, large cursive --- */
 .hero-names {
-    font-family: var(--font-heading);
-    font-size: clamp(3rem, 9vw, 7rem);
+    font-family: var(--font-names);
+    font-size: clamp(4.5rem, 12vw, 10rem);
     font-weight: 400;
     color: #FFFFFF;
     line-height: 1.05;
     margin: 0;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
     white-space: nowrap;
+    animation: goldenGlow 3s infinite alternate;
 }
 
 .hero-names em {
@@ -272,23 +291,25 @@ h3,
 .hero-rsvp-btn {
     display: inline-block;
     padding: 0.75rem 3rem;
-    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    border: none;
     color: #FFFFFF;
     font-family: var(--font-body);
     font-size: 0.72rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     text-decoration: none;
-    background: transparent;
-    backdrop-filter: blur(4px);
-    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    background-size: 200% auto;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    transition: all var(--transition-fast);
     margin-top: 0.4rem;
 }
 
 .hero-rsvp-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #FFFFFF;
+    background-position: right center;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+    transform: translateY(-2px);
 }
 
 /* --- Scroll down label + chevron --- */
@@ -455,8 +476,8 @@ h3,
 .couple-overlay {
     position: absolute;
     inset: 0;
-    /* Dark semi-transparent gradient + blur */
-    background: linear-gradient(to bottom, rgba(30, 32, 28, 0.4), rgba(30, 32, 28, 0.8));
+    /* Soft Blush semi-transparent gradient + blur */
+    background: linear-gradient(to bottom, rgba(232, 180, 184, 0.4), rgba(232, 180, 184, 0.8));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     display: flex;
@@ -509,8 +530,8 @@ h3,
 }
 
 .couple-name {
-    font-family: var(--font-heading);
-    font-size: 3.2rem;
+    font-family: var(--font-names);
+    font-size: 4.8rem;
     font-weight: 400;
     margin-bottom: 0.1rem;
     color: #FFF;
@@ -614,12 +635,10 @@ h3,
 }
 
 .couple-signature-modern {
-    font-family: var(--font-heading);
+    font-family: var(--font-names);
     font-style: italic;
-    font-size: 2.2rem;
-    color: #ba5ca7;
-    /* Vibrant green */
-
+    font-size: 3.5rem;
+    color: var(--color-accent);
 }
 
 /* Time boxes container */
@@ -638,15 +657,18 @@ h3,
 }
 
 .time-box {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 16px;
     width: 150px;
     height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .time-box:hover {
@@ -658,7 +680,7 @@ h3,
     font-size: 5rem;
     font-weight: 500;
     line-height: 1;
-    color: #ba5ca2;
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
@@ -737,14 +759,15 @@ h3,
 }
 
 .location-card {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
     max-width: 800px;
     margin: 0 auto;
     padding: 3rem 2rem;
     border-radius: 4px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    /* Soft shadow */
-    border: 1px solid rgba(145, 95, 109, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .location-icon-circle {
@@ -1246,55 +1269,98 @@ h3,
 }
 
 .rsvp-form-card {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     max-width: 700px;
     margin: 0 auto;
-    padding: 3rem 4rem;
-    /* Increased side padding for spacious look */
+    padding: 4rem;
     border-radius: 6px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #Eaeaea;
+    box-shadow: 0 10px 40px rgba(232, 180, 184, 0.2);
+    border: 2px solid var(--color-accent);
     text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floral Watermarks for RSVP Card */
+.rsvp-form-card::before,
+.rsvp-form-card::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 90 C 20 90, 10 60, 50 30 C 90 60, 80 90, 50 90 Z' fill='%23D4AF37'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.rsvp-form-card::before {
+    top: -30px;
+    right: -30px;
+    transform: rotate(45deg);
+}
+
+.rsvp-form-card::after {
+    bottom: -30px;
+    left: -30px;
+    transform: rotate(-135deg);
 }
 
 .form-group {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .form-group label {
     display: block;
-    font-family: var(--font-heading);
-    color: #4A4A4A;
-    /* Dark Grey Text */
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
-    font-weight: 600;
+    font-family: var(--font-body);
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Input Fields styling matching reference (Beige/Cream input) */
+/* Base input styling (minimal border) */
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="number"],
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid #D6D2C4;
-    background-color: #F0EEE6;
-    /* Beige Input Background matching reference */
-    border-radius: 4px;
+    padding: 0.8rem 0.5rem;
+    border: none;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    background-color: #FFF9FA;
+    /* Blush Pink background */
+    border-radius: 4px 4px 0 0;
     font-family: var(--font-body);
     font-size: 1rem;
-    color: #333;
+    color: var(--color-text-primary);
     transition: all 0.3s ease;
 }
 
+/* Focus states with Gold glow */
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #A39585;
+    border-bottom: 2px solid var(--color-accent);
     background-color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.1);
+}
+
+/* Shifting label effect */
+.form-group:focus-within label {
+    color: var(--color-accent);
+    transform: translateY(-2px);
 }
 
 /* Radio Buttons Group */
@@ -1307,19 +1373,47 @@ h3,
 .radio-label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
     font-family: var(--font-body);
     font-size: 1rem;
     cursor: pointer;
-    font-weight: normal !important;
-    color: #4A4A4A;
+    font-weight: 500 !important;
+    color: var(--color-text-primary);
+    position: relative;
 }
 
+/* Hide default radio */
 .radio-label input[type="radio"] {
-    width: 1.2rem;
-    height: 1.2rem;
-    accent-color: #3C4A3E;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
     margin: 0;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+/* Custom Gold Circle inner fill on checked */
+.radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+}
+
+.radio-label input[type="radio"]:checked {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .small-input {
@@ -1379,38 +1473,51 @@ h3,
     margin: 0;
 }
 
+@keyframes goldPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(212, 175, 55, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
 .submit-btn.confirm-btn {
     width: 100%;
-    padding: 1rem;
-    /* Red Rose (#C72C41) to Lotus Pink (#D45D79) Gradient */
-    background: linear-gradient(135deg, #C72C41, #D45D79);
-    backdrop-filter: blur(5px);
-    /* Less blur needed for solid gradient, but keeps glass border feel */
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(199, 44, 65, 0.4);
+    padding: 1.2rem;
+    /* Luxury Gold Gradient */
+    background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    background-size: 200% auto;
+    border: none;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 
     color: #FFFFFF;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
     border-radius: 4px;
     font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.8rem;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin-top: 2rem;
 }
 
 .submit-btn.confirm-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(199, 44, 65, 0.5);
-    background: linear-gradient(135deg, #A61B2E, #C04360);
-    /* Slightly darker on hover */
+    background-position: right center;
+    animation: goldPulse 1.5s infinite;
 }
 
 /* --- RSVP Thank You Message --- */
@@ -2101,11 +2208,27 @@ footer {
 
 /* --- Final Mobile Polish (< 480px) --- */
 
+/* --- Final Mobile Polish (< 768px) --- */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xl: 5rem;
+        --spacing-lg: 3rem;
+    }
+}
+
 /* --- Final Mobile Polish (< 480px) --- */
 @media (max-width: 480px) {
     :root {
-        --spacing-xl: 4rem;
-        /* Reduce vertical spacing */
+        --spacing-xl: 3rem;
+        --spacing-lg: 2rem;
+    }
+
+    .couple-section,
+    .countdown-section,
+    .location-section,
+    .program-section,
+    .rsvp-section {
+        padding: 3rem 1rem;
     }
 
     .section-title {
@@ -2147,4 +2270,333 @@ footer {
         font-size: 1rem;
         margin-bottom: 2rem;
     }
+}
+
+/* =========================================================
+   ANTIGRAVITY PARTICLES OVERLAY
+   ========================================================= */
+#petal-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* =========================================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================================
+   TIMELINE ICONS GOLD FOIL UPGRADE
+   ========================================================= */
+
+@keyframes goldFoilShine {
+    0% {
+        transform: translateX(-150%) skewX(-25deg);
+    }
+
+    20% {
+        transform: translateX(150%) skewX(-25deg);
+    }
+
+    100% {
+        transform: translateX(150%) skewX(-25deg);
+    }
+
+    /* Wait before repeating */
+}
+
+.timeline-item .icon-circle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 1. Metallic Gold Gradient Background */
+    background: linear-gradient(135deg, #D4AF37 0%, #F1E5AC 50%, #D4AF37 100%);
+
+    /* 2. Thin 1px darker gold border for depth */
+    border: 1px solid #B38728;
+
+    overflow: hidden;
+    /* Keep shine and texture inside the circle */
+    z-index: 1;
+
+    /* 3. Hover state prep */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 4. Noise texture pseudo-element for realistic foil feel */
+.timeline-item .icon-circle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 5. Shine Animation ('Light Reflection') */
+.timeline-item .icon-circle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-150%) skewX(-25deg);
+    animation: goldFoilShine 4s infinite;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 6. SVG Icons color targeting */
+.timeline-item .icon-circle svg {
+    color: #FFFFFF;
+    /* White to stand out. Can change to deep gold (#6B5000) if preferred */
+    position: relative;
+    z-index: 3;
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* 7. Hover states */
+.timeline-item:hover .icon-circle {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4), 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* Update general button typography to be consistent */
+.submit-btn,
+.btn-location,
+.calendar-btn {
+    font-family: var(--font-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+
+/* =========================================================
+   FLORAL THEME INTEGRATION
+   ========================================================= */
+
+/* Lotus Motif inside Timeline */
+.floral-motif.lotus {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: floatingLotus 6s ease-in-out infinite;
+}
+
+@keyframes floatingLotus {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* White Lily Border for Location Card */
+.location-card {
+    position: relative;
+    overflow: hidden;
+    /* Keep the lilies inside the card corners */
+}
+
+/* Base style for corner lilies */
+.location-card::before,
+.location-card::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    opacity: 0.15;
+    /* Semi-transparent, subtle */
+    pointer-events: none;
+    z-index: 0;
+    /* Soft White Lily SVG Graphic */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10,90 Q40,60 50,10 Q60,60 90,90 Q60,80 50,90 Q40,80 10,90 Z' fill='%23FFFFFF' stroke='%23D4AF37' stroke-width='1.5'/%3E%3Cpath d='M30,90 Q45,70 50,30 Q55,70 70,90 Q55,85 50,90 Q45,85 30,90 Z' fill='rgba(253, 239, 242, 0.4)' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Top Left Lily */
+.location-card::before {
+    top: -20px;
+    left: -20px;
+    transform: rotate(45deg);
+}
+
+/* Bottom Right Lily */
+.location-card::after {
+    bottom: -20px;
+    right: -20px;
+    transform: rotate(-135deg);
+}
+
+/* =========================================================
+   THE PLAYLIST SECTION
+   ========================================================= */
+
+.playlist-section {
+    padding: var(--spacing-lg) 5%;
+    background-color: transparent;
+    position: relative;
+    text-align: center;
+}
+
+.playlist-header {
+    margin-bottom: 2rem;
+}
+
+.playlist-icon {
+    margin-bottom: 1rem;
+    animation: floatingLotus 4s ease-in-out infinite;
+    /* Reuse smooth floating animation */
+}
+
+/* Glassmorphism Card Override */
+.playlist-form-card {
+    background: rgba(255, 255, 255, 0.15);
+    /* Much darker overlay to contrast white text */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+}
+
+/* Minimalist Input Fields for Playlist */
+.form-group-minimal {
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.form-group-minimal label {
+    display: block;
+    font-family: var(--font-body);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.form-group-minimal input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 2px solid #D4AF37;
+    background-color: #FFF9FA;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: #333333;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.3s ease;
+}
+
+.form-group-minimal input::placeholder {
+    color: #888888;
+    font-family: var(--font-body);
+    /* Outfit is the --font-body */
+    letter-spacing: 1px;
+}
+
+.form-group-minimal input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--color-accent);
+    background-color: #FFFFFF;
+}
+
+/* Add to Playlist Button with Animations */
+@keyframes noteFloatUp {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.1) rotate(5deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-30px) scale(0.8) rotate(-5deg);
+        opacity: 0;
+    }
+}
+
+.playlist-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    background-size: 200% auto;
+    border: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* For the floating icon */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.playlist-btn .note-hover-icon {
+    position: absolute;
+    right: 25%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.playlist-btn:hover {
+    transform: translateY(-2px);
+    background-position: right center;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+}
+
+/* Trigger icon float on button hover */
+.playlist-btn:hover .note-hover-icon {
+    animation: noteFloatUp 1.2s ease-out infinite;
 }

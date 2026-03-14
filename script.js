@@ -366,3 +366,134 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+// --- Scroll Reveal Animation ---
+const revealElements = document.querySelectorAll('.reveal');
+
+if (revealElements.length > 0) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        root: null,
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+}
+
+// --- Antigravity Rose Petals & Lily System ---
+document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById('petal-canvas');
+    // Guard against missing canvas
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas dimensions
+    let width, height;
+    function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Particle Array
+    const particles = [];
+    // Reduce count on smaller screens for performance
+    const isMobile = width < 768;
+    const baseParticleCount = isMobile ? 20 : 35;
+
+    class Particle {
+        constructor() {
+            this.reset(true);
+        }
+
+        reset(initial = false) {
+            this.x = Math.random() * width;
+            // If initial, spawn anywhere; if resetting, spawn near bottom
+            this.y = initial ? Math.random() * height : height + 20;
+
+            // 50% Pink Rose Petal, 50% White Lily Petal
+            this.isPink = Math.random() > 0.5;
+            this.isPetal = true; // All are petals now
+
+            // Soft Blush Pink (#FDEFF2) or White (#FFFFFF)
+            const opacity = 0.3 + Math.random() * 0.4; // 0.3 to 0.7
+            this.color = this.isPink ? `rgba(253, 239, 242, ${opacity})` : `rgba(255, 255, 255, ${opacity})`;
+
+            // Petal specific properties
+            this.size = Math.random() * 8 + 4; // 4 to 12
+            this.vy = -(Math.random() * 0.8 + 0.3); // Float up slowly (-0.3 to -1.1)
+            this.vx = (Math.random() - 0.5) * 0.8; // Drift left/right (-0.4 to 0.4)
+            this.swaySpeed = Math.random() * 0.02 + 0.01;
+            this.swayAmount = Math.random() * 2 + 1;
+            this.angle = Math.random() * Math.PI * 2;
+            this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+            this.swayOffset = Math.random() * Math.PI * 2;
+        }
+
+        update() {
+            // Apply sway to petals
+            if (this.isPetal) {
+                this.swayOffset += this.swaySpeed;
+                this.x += Math.sin(this.swayOffset) * this.swayAmount * 0.1 + this.vx;
+                this.angle += this.rotationSpeed;
+            } else {
+                this.x += this.vx;
+            }
+
+            this.y += this.vy;
+
+            // Reset when off screen (top, left, or right)
+            if (this.y + this.size < -50 || this.x > width + 50 || this.x < -50) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            ctx.save();
+            ctx.fillStyle = this.color;
+            ctx.translate(this.x, this.y);
+
+            if (this.isPetal) {
+                // Draw elegant curved petal shape
+                ctx.rotate(this.angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                // Quadratic curves to form an organic petal
+                ctx.quadraticCurveTo(this.size, -this.size * 0.5, this.size * 1.5, 0);
+                ctx.quadraticCurveTo(this.size, this.size * 0.5, 0, 0);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+    }
+
+    // Initialize particles
+    for (let i = 0; i < baseParticleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    // Animation Loop
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+});
