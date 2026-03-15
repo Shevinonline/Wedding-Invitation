@@ -1030,7 +1030,7 @@ h3,
 .program-illustration img {
     max-width: 100%;
     height: auto;
-    width: 120px;
+    width: 100px;
     /* Adjust based on illustration */
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
 }
