@@ -2393,7 +2393,7 @@ footer {
     /* The timer box styling is handled by the earlier max-width: 480px media query */
 
     .program-illustration img {
-        width: 100%;
+        width: 100px;
     }
 
     .section-subtitle {
