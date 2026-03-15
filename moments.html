@@ -330,6 +330,80 @@
             color: var(--color-text-secondary);
             min-height: 20px;
         }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFFFFF;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success Overlay */
+        .upload-success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .upload-success-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .success-card {
+            background: rgba(253, 239, 242, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .upload-success-overlay.visible .success-card {
+            transform: translateY(0);
+        }
+
+        .success-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 3.5rem;
+            color: #D4AF37;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 
@@ -421,6 +495,16 @@
     </section>
 
 
+    <!-- Upload Success Overlay -->
+    <div id="upload-success-overlay" class="upload-success-overlay">
+        <div class="success-card">
+            <h3 class="success-title">Success</h3>
+            <p class="success-message">Thank you for sharing your moments with us! We can't wait to see them!</p>
+            <button class="gold-upload-btn"
+                onclick="document.getElementById('upload-success-overlay').classList.remove('visible')">Close</button>
+        </div>
+    </div>
+
     <footer>
         <p>Hansi & Shevin</p>
     </footer>
@@ -486,8 +570,8 @@
             }
         });
 
-        // Replace this with the actual Google Apps Script web app URL deployed later
-        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjKZd3WQ9vp3yCkcFzYn3EKo2dXhMZhBYg9qbt5P5DwrbNoYDzP_CkDzw97nw_xjyyNA/exec";
+        const successOverlay = document.getElementById('upload-success-overlay');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -501,7 +585,7 @@
             }
 
             const uploaderName = document.getElementById('uploader-name').value;
-            submitBtn.textContent = "Uploading...";
+            submitBtn.innerHTML = '<span class="spinner"></span>Sending Magic to Shevin & Hansani...';
             submitBtn.disabled = true;
             statusMsg.textContent = `Preparing ${files.length} image(s)...`;
             statusMsg.style.color = "var(--color-text-secondary)";
@@ -514,11 +598,7 @@
                         reader.onload = (ev) => {
                             // Extract base64 part only
                             const base64Data = ev.target.result.split(',')[1];
-                            resolve({
-                                filename: file.name,
-                                mimeType: file.type,
-                                data: base64Data
-                            });
+                            resolve(base64Data);
                         };
                         reader.onerror = reject;
                         reader.readAsDataURL(file);
@@ -530,7 +610,7 @@
                 // Construct payload
                 const payload = {
                     name: uploaderName,
-                    files: filesData
+                    photos: filesData
                 };
 
                 statusMsg.textContent = "Sending to Drive...";
@@ -539,19 +619,22 @@
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
+                    // mode: 'no-cors' -> Not needed usually if CORS is handled in GAS
                 });
 
-                // This is a placeholder for actual response checking depending on how the GAS is setup
-                // For now we simulate success or provide the stub
-                statusMsg.textContent = "Upload successful! Thank you.";
-                statusMsg.style.color = "#5CBA76";
+                // Show success overlay
+                successOverlay.classList.add('visible');
+
+                // Reset Form state
                 form.reset();
+                selectionText.textContent = '0 files selected';
+                selectionText.style.color = 'var(--color-text-secondary)';
+                statusMsg.textContent = "";
 
             } catch (error) {
                 console.error("Upload error:", error);
-                // Note: CORS errors often happen if the web app isn't deployed properly on GAS.
-                statusMsg.textContent = "Note: Script URL not configured yet. Base64 conversion ran successfully.";
-                statusMsg.style.color = "#b38728";
+                statusMsg.textContent = "Something went wrong. Please try again.";
+                statusMsg.style.color = "#D45D79";
             } finally {
                 submitBtn.textContent = "Upload to Our Drive";
                 submitBtn.disabled = false;
