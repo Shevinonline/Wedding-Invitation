@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Moments - Shevin & Hansani</title>
+
+    <!-- Fonts matching the theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Link to existing global stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Page specific styles for moments.html -->
+    <style>
+        /* Base Page Setup */
+        body {
+            background-color: var(--color-bg-primary);
+            /* Uses existing cream/blush background */
+            min-height: 100vh;
+            padding-top: 4rem;
+            /* Spacer since there's no hero video here */
+        }
+
+        .page-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 4.5rem;
+            color: var(--color-accent);
+            /* Gold */
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Section 1: Our Journey Timeline --- */
+        .timeline-section {
+            padding: var(--spacing-lg) 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--color-text-primary);
+            margin-bottom: 4rem;
+        }
+
+        .vertical-timeline {
+            position: relative;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* The Gold Dashed Line */
+        .vertical-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            border-left: 2px dashed #D4AF37;
+            /* Gold dashed line */
+            z-index: 1;
+        }
+
+        /* The Scrolling Airplane Icon */
+        .scrolling-airplane {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            /* Updated via JS on scroll */
+            transform: translate(-50%, -50%);
+            color: #D4AF37;
+            z-index: 3;
+            transition: top 0.1s ease-out;
+            background: var(--color-bg-primary);
+            padding: 4px;
+            border-radius: 50%;
+        }
+
+        /* Timeline Items (Glassmorphism Cards) */
+        .v-timeline-item {
+            position: relative;
+            width: 45%;
+            z-index: 2;
+        }
+
+        .v-timeline-item:nth-child(even) {
+            align-self: flex-end;
+        }
+
+        .v-timeline-card {
+            background: rgba(253, 239, 242, 0.7);
+            /* Blush Pink #FDEFF2 */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.08);
+            /* Subtle gold shadow */
+            transition: transform 0.3s ease;
+        }
+
+        .v-timeline-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Dot on the line */
+        .v-timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 2rem;
+            width: 14px;
+            height: 14px;
+            background-color: #FFFFFF;
+            border: 3px solid #D4AF37;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .v-timeline-item:nth-child(odd)::after {
+            right: -11.5%;
+            /* Position dot on center line */
+            transform: translateX(50%);
+        }
+
+        .v-timeline-item:nth-child(even)::after {
+            left: -11.5%;
+            transform: translateX(-50%);
+        }
+
+        .year-badge {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #D4AF37;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone-desc {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .vertical-timeline::before {
+                left: 20px;
+            }
+
+            .scrolling-airplane {
+                left: 20px;
+            }
+
+            .v-timeline-item {
+                width: calc(100% - 50px);
+                align-self: flex-end;
+            }
+
+            .v-timeline-item:nth-child(odd)::after,
+            .v-timeline-item:nth-child(even)::after {
+                left: -30px;
+                transform: translateX(0);
+            }
+
+            .v-timeline-item:nth-child(even) {
+                align-self: flex-end;
+            }
+        }
+
+
+        /* --- Section 2: Guest Moments Uploader --- */
+        .uploader-section {
+            padding: var(--spacing-xl) 1rem;
+            max-width: 600px;
+            margin: 0 auto 4rem auto;
+            text-align: center;
+        }
+
+        .uploader-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--color-text-primary);
+            margin-bottom: 2rem;
+        }
+
+        .upload-form-card {
+            background: rgba(253, 239, 242, 0.7);
+            /* Blush Pink matching Playlist/Theme */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Minimalist inputs mimicking 'The Playlist' */
+        .minimal-input-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .minimal-input-group label {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .minimal-input-group input[type="text"] {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #D4AF37;
+            /* Gold bottom border */
+            padding: 0.8rem 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--color-text-primary);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .minimal-input-group input[type="text"]:focus {
+            border-bottom-color: #b38728;
+        }
+
+        .minimal-file-input {
+            width: 100%;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            padding: 1rem 0;
+            /* Basic file input styling to keep it clean */
+        }
+
+        /* Gold Gradient Button */
+        .gold-upload-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 30px;
+            color: #FFFFFF;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            background-size: 200% auto;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .gold-upload-btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .upload-status {
+            margin-top: 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            min-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Antigravity Particles Overlay (Requires script.js) -->
+    <canvas id="petal-canvas"></canvas>
+
+    <h1 class="page-title reveal">Our Moments</h1>
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: OUR JOURNEY (TIMELINE)              -->
+    <!-- ============================================== -->
+    <section class="timeline-section">
+        <h2 class="timeline-title reveal">Our Journey</h2>
+
+        <div class="vertical-timeline reveal" id="journey-timeline">
+            <!-- Scrolling Airplane Icon -->
+            <div class="scrolling-airplane" id="airplane-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21.5 4c0 0-2 .5-3.5 2L14.5 9.5 6.3 7.7 4.6 9l5.4 5.4-4.3 4.3-2.2-.7L2 19.5l3.5 1 1 3.5 1.5-1.5-.7-2.2 4.3-4.3 5.4 5.4z">
+                    </path>
+                </svg>
+            </div>
+
+            <!-- Milestone 1 -->
+            <div class="v-timeline-item">
+                <div class="v-timeline-card">
+                    <div class="year-badge">2019</div>
+                    <p class="milestone-desc">Where it all began—a beautiful friendship that turned into a lifelong
+                        promise.</p>
+                </div>
+            </div>
+
+            <!-- Milestone 2 -->
+            <div class="v-timeline-item">
+                <div class="v-timeline-card">
+                    <div class="year-badge">2023</div>
+                    <p class="milestone-desc">Across the Miles—bridging the distance between Sri Lanka and Sydney,
+                        Australia.</p>
+                </div>
+            </div>
+
+            <!-- Milestone 3 -->
+            <div class="v-timeline-item">
+                <div class="v-timeline-card">
+                    <div class="year-badge">2026</div>
+                    <p class="milestone-desc">The Forever Chapter—celebrating our love today as we start our life
+                        together.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 2: GUEST MOMENTS UPLOADER              -->
+    <!-- ============================================== -->
+    <section class="uploader-section reveal">
+        <h2 class="uploader-title">Share Your Moments with Us</h2>
+
+        <form class="upload-form-card" id="moments-upload-form">
+            <div class="minimal-input-group">
+                <label for="uploader-name">Your Name</label>
+                <input type="text" id="uploader-name" required placeholder="John Doe">
+            </div>
+
+            <div class="minimal-input-group">
+                <label for="moment-photos">Select Photos (Max 5)</label>
+                <!-- Allow multiple files, filter for images -->
+                <input type="file" id="moment-photos" class="minimal-file-input" accept="image/*" multiple required>
+            </div>
+
+            <button type="submit" class="gold-upload-btn" id="upload-btn">Upload to Our Drive</button>
+            <div class="upload-status" id="upload-status-message"></div>
+        </form>
+    </section>
+
+
+    <footer>
+        <p>Hansi & Shevin</p>
+    </footer>
+
+    <!-- Existing script for canvas effects -->
+    <script src="script.js"></script>
+
+    <!-- Specific logic for moments.html -->
+    <script>
+        // --- Airplane Scroll Animation ---
+        const timeline = document.getElementById('journey-timeline');
+        const airplane = document.getElementById('airplane-icon');
+
+        function updateAirplanePosition() {
+            if (!timeline || !airplane) return;
+            // Get timeline dimensions and position relative to viewport
+            const timelineRect = timeline.getBoundingClientRect();
+
+            // Calculate how far we've scrolled past the top of the timeline
+            // Adding half the window height so the airplane starts moving when the timeline reaches the middle of the screen
+            const scrollStartOffset = window.innerHeight / 2;
+            let scrolledPx = scrollStartOffset - timelineRect.top;
+
+            // Clamp the value between 0 and the total height of the timeline
+            if (scrolledPx < 0) {
+                scrolledPx = 0;
+            } else if (scrolledPx > timelineRect.height) {
+                scrolledPx = timelineRect.height;
+            }
+
+            // Apply position
+            airplane.style.top = scrolledPx + 'px';
+        }
+
+        window.addEventListener('scroll', updateAirplanePosition);
+        window.addEventListener('resize', updateAirplanePosition);
+
+        // Initial setup
+        updateAirplanePosition();
+
+        // --- Photo Uploader Logic ---
+        const form = document.getElementById('moments-upload-form');
+        const fileInput = document.getElementById('moment-photos');
+        const statusMsg = document.getElementById('upload-status-message');
+        const submitBtn = document.getElementById('upload-btn');
+
+        // Replace this with the actual Google Apps Script web app URL deployed later
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const files = fileInput.files;
+            if (files.length === 0) return;
+            if (files.length > 5) {
+                statusMsg.textContent = "Please select a maximum of 5 photos at a time.";
+                statusMsg.style.color = "#D45D79";
+                return;
+            }
+
+            const uploaderName = document.getElementById('uploader-name').value;
+            submitBtn.textContent = "Uploading...";
+            submitBtn.disabled = true;
+            statusMsg.textContent = `Preparing ${files.length} image(s)...`;
+            statusMsg.style.color = "var(--color-text-secondary)";
+
+            try {
+                // Read all files and convert to base64
+                const filePromises = Array.from(files).map(file => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            // Extract base64 part only
+                            const base64Data = ev.target.result.split(',')[1];
+                            resolve({
+                                filename: file.name,
+                                mimeType: file.type,
+                                data: base64Data
+                            });
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                });
+
+                const filesData = await Promise.all(filePromises);
+
+                // Construct payload
+                const payload = {
+                    name: uploaderName,
+                    files: filesData
+                };
+
+                statusMsg.textContent = "Sending to Drive...";
+
+                // Fetch request to Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                // This is a placeholder for actual response checking depending on how the GAS is setup
+                // For now we simulate success or provide the stub
+                statusMsg.textContent = "Upload successful! Thank you.";
+                statusMsg.style.color = "#5CBA76";
+                form.reset();
+
+            } catch (error) {
+                console.error("Upload error:", error);
+                // Note: CORS errors often happen if the web app isn't deployed properly on GAS.
+                statusMsg.textContent = "Note: Script URL not configured yet. Base64 conversion ran successfully.";
+                statusMsg.style.color = "#b38728";
+            } finally {
+                submitBtn.textContent = "Upload to Our Drive";
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

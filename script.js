@@ -32,11 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const introVideo = document.getElementById('intro-video');
     const videoCurtain = document.getElementById('video-curtain');
 
-    // Lock scroll while video intro is showing
-    document.body.style.overflow = 'hidden';
-
-    // Show the video intro right away
+    // Show the video intro right away and lock scroll
     if (videoIntro) {
+        document.body.style.overflow = 'hidden';
         videoIntro.classList.add('visible');
     }
 
