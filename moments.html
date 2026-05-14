@@ -1179,35 +1179,31 @@
                 submitBtn.innerHTML = '<span class="spinner"></span>Sending to Drive...';
                 statusMsg.textContent = "Uploading to server...";
 
-                // XMLHttpRequest to support upload progress
-                await new Promise((resolve, reject) => {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-                    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-                    
-                    // Upload progress event
-                    xhr.upload.onprogress = function(e) {
-                        if (e.lengthComputable) {
-                            const percentComplete = Math.round((e.loaded / e.total) * 100);
-                            submitBtn.innerHTML = `<span class="spinner"></span>Uploading... ${percentComplete}%`;
-                            statusMsg.textContent = "Please wait, sending to server...";
-                        }
-                    };
+                // We use fetch with specific parameters to bypass Apps Script CORS preflight issues.
+                // Since fetch doesn't natively support upload progress, we use a simulated progress indicator.
+                let simulatedProgress = 0;
+                const progressInterval = setInterval(() => {
+                    simulatedProgress += Math.floor(Math.random() * 10) + 2; // jump 2-11% at a time
+                    if (simulatedProgress > 95) simulatedProgress = 95; // cap at 95% until complete
+                    submitBtn.innerHTML = `<span class="spinner"></span>Uploading... ${simulatedProgress}%`;
+                }, 800);
 
-                    xhr.onload = function() {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            resolve(xhr.responseText);
-                        } else {
-                            reject(new Error(`HTTP Error: ${xhr.status}`));
-                        }
-                    };
-
-                    xhr.onerror = function() {
-                        reject(new Error("Network Error occurred during upload."));
-                    };
-
-                    xhr.send(JSON.stringify(payload));
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    redirect: 'follow', // Crucial to follow Apps Script 302 redirect
+                    body: JSON.stringify(payload)
                 });
+                
+                clearInterval(progressInterval);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error Status: ${response.status} - ${response.statusText}`);
+                }
+
+                submitBtn.innerHTML = `<span class="spinner"></span>Uploading... 100%`;
 
                 // Show success overlay
                 successOverlay.classList.add('visible');
@@ -1221,12 +1217,22 @@
                 statusMsg.textContent = "";
 
             } catch (error) {
-                console.error("Upload error:", error);
-                statusMsg.textContent = "Something went wrong. Please try again.";
+                // Improved Error Logging for debugging Network Errors
+                console.error("================ ERROR DETAILS ================");
+                console.error("Full Error Object:", error);
+                console.error("Error Message:", error.message);
+                console.error("Error Stack:", error.stack);
+                console.error("===============================================");
+                
+                statusMsg.textContent = "Network Error: Please check your connection and try again.";
                 statusMsg.style.color = "#D45D79";
             } finally {
-                submitBtn.textContent = "Upload to Our Drive";
-                submitBtn.disabled = false;
+                // Ensure interval is cleared even if an error is thrown early
+                if (typeof progressInterval !== 'undefined') clearInterval(progressInterval);
+                setTimeout(() => {
+                    submitBtn.textContent = "Upload to Our Drive";
+                    submitBtn.disabled = false;
+                }, 1500); // Wait 1.5s to show 100% before resetting button text
             }
         });
     </script>
