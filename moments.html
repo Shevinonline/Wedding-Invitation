@@ -157,6 +157,85 @@
             color: var(--color-text-secondary);
         }
 
+        /* --- Polaroid Overlap Styles --- */
+        .polaroid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+            position: relative;
+            min-height: 180px;
+            perspective: 1000px;
+        }
+
+        .polaroid {
+            background: #FFFFFF;
+            padding: 10px 10px 35px 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            position: absolute;
+            /* Overlap them */
+            width: 140px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: bottom center;
+        }
+
+        .polaroid-img-placeholder {
+            background-color: #f0f0f0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            border: 1px solid #eee;
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Pinyon Script', cursive;
+            font-size: 1.3rem;
+            color: #333;
+            margin: 0;
+        }
+
+        /* Initial state (stacked closely) */
+        .polaroid.p-left {
+            transform: rotate(-2deg) translateX(5px) translateY(5px);
+            z-index: 1;
+        }
+
+        .polaroid.p-center {
+            transform: rotate(1deg) translateY(0);
+            z-index: 3;
+        }
+
+        .polaroid.p-right {
+            transform: rotate(3deg) translateX(-5px) translateY(5px);
+            z-index: 2;
+        }
+
+        /* Fan out animation on scroll via .active class */
+        .polaroid-container.active .polaroid.p-left {
+            transform: rotate(-12deg) translateX(-45px) translateY(10px);
+        }
+
+        .polaroid-container.active .polaroid.p-center {
+            transform: rotate(2deg) translateY(-10px);
+        }
+
+        .polaroid-container.active .polaroid.p-right {
+            transform: rotate(15deg) translateX(45px) translateY(15px);
+        }
+
         @media (max-width: 768px) {
             .vertical-timeline::before {
                 left: 20px;
@@ -180,10 +259,195 @@
             .v-timeline-item:nth-child(even) {
                 align-self: flex-end;
             }
+
+            /* Mobile Polaroid Adjustments */
+            .polaroid-container {
+                min-height: auto;
+                flex-direction: column;
+                position: relative;
+                margin-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .polaroid {
+                position: relative;
+                width: 160px;
+                height: 180px;
+                margin-bottom: -40px;
+                /* Neatly stacked */
+                transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .polaroid.p-left,
+            .polaroid.p-center,
+            .polaroid.p-right {
+                transform: rotate(0) !important;
+                /* Reset initial */
+            }
+
+            /* Subtly tilted stack on mobile */
+            .polaroid-container.active .polaroid.p-left {
+                transform: rotate(-4deg) translateX(-10px) !important;
+                z-index: 1;
+            }
+
+            .polaroid-container.active .polaroid.p-center {
+                transform: rotate(2deg) translateY(-10px) !important;
+                z-index: 3;
+            }
+
+            .polaroid-container.active .polaroid.p-right {
+                transform: rotate(5deg) translateX(10px) !important;
+                z-index: 2;
+            }
         }
 
 
-        /* --- Section 2: Guest Moments Uploader --- */
+        /* --- Choice Screen Styles --- */
+        .choice-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .choice-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .choice-card {
+            background: rgba(255, 255, 255, 0.98);
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%23fdfcf9' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(127, 106, 59, 0.3);
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        .choice-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37, #F1E5AC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .choice-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #4A3E23;
+        }
+
+        .choice-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #7F6A3B;
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-card p {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .form-container.hidden {
+            display: none;
+        }
+
+        .choice-container.hidden {
+            display: none;
+        }
+
+        .back-to-choice {
+            background: none;
+            border: none;
+            color: #7F6A3B;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.2s;
+        }
+
+        .back-to-choice:hover {
+            opacity: 0.7;
+        }
+
+        /* --- Tabbed UI Styles --- */
+        .tab-header {
+            display: flex;
+            position: relative;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(127, 106, 59, 0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem 0;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: rgba(127, 106, 59, 0.6);
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 1;
+        }
+
+        .tab-btn.active {
+            color: #7F6A3B;
+        }
+
+        .active-tab-indicator {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background-color: #D4AF37;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Section 1: Guest Moments Uploader (Redesigned) --- */
         .uploader-section {
             padding: var(--spacing-xl) 1rem;
             max-width: 600px;
@@ -194,22 +458,47 @@
         .uploader-title {
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
-            color: var(--color-text-primary);
+            color: #7F6A3B; /* Deep Metallic Bronze */
             margin-bottom: 2rem;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5); /* Subtle lift */
         }
 
         .upload-form-card {
-            background: rgba(253, 239, 242, 0.7);
-            /* Blush Pink matching Playlist/Theme */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.98); /* Pearl White */
+            /* Subtle crisp texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%23fdfcf9' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(127, 106, 59, 0.3); /* Bronze border */
+            border-radius: 16px;
             padding: 3rem 2rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); /* Stronger shadow for dim environment */
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Minimalist inputs mimicking 'The Playlist' */
+        /* Bokeh light overlay inside form */
+        .upload-form-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.12) 0%, transparent 20%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 70% 70%, rgba(212, 175, 55, 0.06) 0%, transparent 15%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(5px);
+        }
+
+        .upload-form-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Minimalist inputs */
         .minimal-input-group {
             margin-bottom: 2rem;
             text-align: left;
@@ -218,30 +507,35 @@
         .minimal-input-group label {
             display: block;
             font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--color-text-secondary);
-            margin-bottom: 0.5rem;
+            font-weight: 600; /* As requested */
+            font-size: 0.95rem;
+            color: #7F6A3B; /* Deep Metallic Bronze */
+            margin-bottom: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
         .minimal-input-group input[type="text"] {
             width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid #D4AF37;
-            /* Gold bottom border */
-            padding: 0.8rem 0;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #7F6A3B; /* Defined clean Bronze border */
+            border-radius: 8px; /* Slightly rounded */
+            padding: 1rem 1.2rem;
             font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            color: var(--color-text-primary);
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: #332A15; /* Very dark sharp text */
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .minimal-input-group input[type="text"]:focus {
-            border-bottom-color: #b38728;
+            border-color: #5C4B27;
+            box-shadow: 0 0 0 3px rgba(127, 106, 59, 0.15);
+        }
+        
+        .minimal-input-group input[type="text"]::placeholder {
+            color: rgba(127, 106, 59, 0.5); /* Subtle bronze placeholder */
         }
 
         /* Custom File Input Label Button */
@@ -254,81 +548,87 @@
             overflow: hidden;
         }
 
-        .custom-file-label {
+        /* Hyper-Realistic Buttons */
+        .custom-file-label, .gold-upload-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             width: 100%;
             padding: 1.2rem 2rem;
-            background: linear-gradient(135deg, #D4AF37, #F1E5AC);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 30px;
-            color: #FFFFFF;
+            
+            /* Polished edge and embossed depth */
+            border: 1px solid #E6D070; 
+            border-bottom: 3px solid #B89947; 
+            border-radius: 8px; /* Bar-like */
+            
+            color: #4A3E23; /* Dark text for contrast against gold */
+            text-shadow: 0 1px 1px rgba(255,255,255,0.4); /* Foil text effect */
             font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 1.05rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease;
+            
+            /* Hammered foil gradient */
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 20%, rgba(0,0,0,0.05) 50%, transparent 80%, rgba(255,255,255,0.3) 100%),
+                linear-gradient(to right, #D4AF37, #F5E397, #D4AF37, #F5E397, #D4AF37);
+            
+            box-shadow: 
+                inset 0 1px 2px rgba(255,255,255,0.8), /* Top highlight */
+                inset 0 -1px 2px rgba(0,0,0,0.1), /* Bottom inner shadow */
+                0 8px 20px rgba(0,0,0,0.15), /* Drop shadow */
+                0 3px 6px rgba(0,0,0,0.1); /* Close shadow */
+                
+            transition: all 0.2s ease;
             margin-top: 0.5rem;
         }
 
-        .custom-file-label:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        .gold-upload-btn {
+            margin-top: 1rem;
+        }
+
+        .custom-file-label:hover, .gold-upload-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                inset 0 1px 2px rgba(255,255,255,0.8),
+                inset 0 -1px 2px rgba(0,0,0,0.1),
+                0 10px 25px rgba(0,0,0,0.2),
+                0 4px 8px rgba(0,0,0,0.12);
+        }
+
+        .custom-file-label:active, .gold-upload-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 1px;
+            box-shadow: 
+                inset 0 1px 2px rgba(255,255,255,0.8),
+                0 2px 5px rgba(0,0,0,0.2);
         }
 
         .camera-icon {
             width: 22px;
             height: 22px;
-            stroke: #FFFFFF;
+            stroke: #4A3E23; /* Match dark text */
         }
 
         .file-selection-helper {
             font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
-            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            color: #7F6A3B; /* Bronze helper text */
             text-align: center;
             margin-top: 1rem;
-            font-weight: 300;
-        }
-
-        /* Gold Gradient Button */
-        .gold-upload-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 1.2rem 2rem;
-            border: none;
-            border-radius: 30px;
-            color: #FFFFFF;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
             font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            background-size: 200% auto;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .gold-upload-btn:hover {
-            background-position: right center;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
         }
 
         .upload-status {
             margin-top: 1rem;
             font-family: 'Outfit', sans-serif;
             font-size: 0.95rem;
-            color: var(--color-text-secondary);
+            color: #7F6A3B;
             min-height: 20px;
+            font-weight: 600;
         }
 
         /* Spinner */
@@ -415,7 +715,103 @@
     <h1 class="page-title reveal">Our Moments</h1>
 
     <!-- ============================================== -->
-    <!-- SECTION 1: OUR JOURNEY (TIMELINE)              -->
+    <!-- SECTION 1: GUEST MOMENTS UPLOADER              -->
+    <!-- ============================================== -->
+    <section class="uploader-section reveal" id="uploader-section">
+        <h2 class="uploader-title">Share Your Moments</h2>
+
+        <!-- Initial Choice View -->
+        <div class="choice-container" id="choice-view">
+            <div class="choice-card" onclick="document.getElementById('capture-input').click()">
+                <div class="choice-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                </div>
+                <h3>Capture Moments</h3>
+                <p>Take a photo or video right now</p>
+                <input type="file" id="capture-input" accept="image/*,video/*" capture="environment" class="hidden-file-input">
+            </div>
+
+            <div class="choice-card" id="btn-show-upload">
+                <div class="choice-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3>Upload Moments</h3>
+                <p>Select from your device</p>
+            </div>
+        </div>
+
+        <!-- Form View (Hidden initially) -->
+        <div class="form-container hidden" id="form-view">
+            <form class="upload-form-card" id="moments-upload-form">
+                
+                <button type="button" class="back-to-choice" id="btn-back-choice">
+                    &larr; Back
+                </button>
+
+                <div class="minimal-input-group">
+                    <label for="uploader-name">Your Name</label>
+                    <input type="text" id="uploader-name" required placeholder="John Doe">
+                </div>
+
+                <!-- Tab Header -->
+                <div class="tab-header">
+                    <div class="tab-btn active" data-tab="photos">Photos</div>
+                    <div class="tab-btn" data-tab="videos">Videos</div>
+                    <div class="active-tab-indicator" id="tab-indicator"></div>
+                </div>
+
+                <!-- Tab Content: Photos -->
+                <div class="tab-content active" id="tab-photos">
+                    <div class="minimal-input-group">
+                        <input type="file" id="moment-photos" class="hidden-file-input" accept="image/*" multiple>
+                        <label for="moment-photos" class="custom-file-label">
+                            <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            Select Photos
+                        </label>
+                        <div id="file-selection-text" class="file-selection-helper">0 photos selected</div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Videos -->
+                <div class="tab-content" id="tab-videos">
+                    <div class="minimal-input-group">
+                        <input type="file" id="moment-videos" class="hidden-file-input" accept="video/*">
+                        <label for="moment-videos" class="custom-file-label">
+                            <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
+                            Select Video (1 Max)
+                        </label>
+                        <div id="video-selection-text" class="file-selection-helper">0 videos selected</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="gold-upload-btn" id="upload-btn">Upload to Our Drive</button>
+                <div class="upload-status" id="upload-status-message"></div>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- Upload Success Overlay -->
+    <div id="upload-success-overlay" class="upload-success-overlay">
+        <div class="success-card">
+            <h3 class="success-title">Success</h3>
+            <p class="success-message">Thank you for sharing your moments with us! We can't wait to see them!</p>
+            <button class="gold-upload-btn"
+                onclick="document.getElementById('upload-success-overlay').classList.remove('visible')">Close</button>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SECTION 2: OUR JOURNEY (TIMELINE)              -->
     <!-- ============================================== -->
     <section class="timeline-section">
         <h2 class="timeline-title reveal">Our Journey</h2>
@@ -437,6 +833,16 @@
                     <div class="year-badge">2019</div>
                     <p class="milestone-desc">Where it all began—a beautiful friendship that turned into a lifelong
                         promise.</p>
+                    <div class="polaroid-container reveal">
+                        <div class="polaroid p-left">
+                            <div class="polaroid-img-placeholder">Image</div>
+                            <p class="polaroid-caption">Early Days</p>
+                        </div>
+                        <div class="polaroid p-center">
+                            <div class="polaroid-img-placeholder">Image</div>
+                            <p class="polaroid-caption">Early Days</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -446,6 +852,20 @@
                     <div class="year-badge">2023</div>
                     <p class="milestone-desc">Across the Miles—bridging the distance between Sri Lanka and Sydney,
                         Australia.</p>
+                    <div class="polaroid-container reveal">
+                        <div class="polaroid p-left">
+                            <div class="polaroid-img-placeholder">SL</div>
+                            <p class="polaroid-caption">Bridging the Distance</p>
+                        </div>
+                        <div class="polaroid p-center">
+                            <div class="polaroid-img-placeholder">Journey</div>
+                            <p class="polaroid-caption">Bridging the Distance</p>
+                        </div>
+                        <div class="polaroid p-right">
+                            <div class="polaroid-img-placeholder">Sydney</div>
+                            <p class="polaroid-caption">Bridging the Distance</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -455,55 +875,21 @@
                     <div class="year-badge">2026</div>
                     <p class="milestone-desc">The Forever Chapter—celebrating our love today as we start our life
                         together.</p>
+                    <div class="polaroid-container reveal">
+                        <div class="polaroid p-left">
+                            <div class="polaroid-img-placeholder">Image</div>
+                            <p class="polaroid-caption">The Big Day</p>
+                        </div>
+                        <div class="polaroid p-center">
+                            <div class="polaroid-img-placeholder">Image</div>
+                            <p class="polaroid-caption">The Big Day</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================== -->
-    <!-- SECTION 2: GUEST MOMENTS UPLOADER              -->
-    <!-- ============================================== -->
-    <section class="uploader-section reveal">
-        <h2 class="uploader-title">Share Your Moments with Us</h2>
-
-        <form class="upload-form-card" id="moments-upload-form">
-            <div class="minimal-input-group">
-                <label for="uploader-name">Your Name</label>
-                <input type="text" id="uploader-name" required placeholder="John Doe">
-            </div>
-
-            <div class="minimal-input-group">
-                <!-- Hidden actual file input -->
-                <input type="file" id="moment-photos" class="hidden-file-input" accept="image/*" multiple required>
-                <!-- Styled Label acting as the button -->
-                <label for="moment-photos" class="custom-file-label">
-                    <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
-                        </path>
-                        <circle cx="12" cy="13" r="4"></circle>
-                    </svg>
-                    Select Your Photos (Max 5)
-                </label>
-                <!-- Helper text for file count -->
-                <div id="file-selection-text" class="file-selection-helper">0 files selected</div>
-            </div>
-
-            <button type="submit" class="gold-upload-btn" id="upload-btn">Upload to Our Drive</button>
-            <div class="upload-status" id="upload-status-message"></div>
-        </form>
-    </section>
-
-
-    <!-- Upload Success Overlay -->
-    <div id="upload-success-overlay" class="upload-success-overlay">
-        <div class="success-card">
-            <h3 class="success-title">Success</h3>
-            <p class="success-message">Thank you for sharing your moments with us! We can't wait to see them!</p>
-            <button class="gold-upload-btn"
-                onclick="document.getElementById('upload-success-overlay').classList.remove('visible')">Close</button>
-        </div>
-    </div>
 
     <footer>
         <p>Hansi & Shevin</p>
@@ -545,29 +931,146 @@
         // Initial setup
         updateAirplanePosition();
 
-        // --- Photo Uploader Logic ---
+        // --- Navigation Logic (Choice <-> Form) ---
+        const choiceView = document.getElementById('choice-view');
+        const formView = document.getElementById('form-view');
+        const btnShowUpload = document.getElementById('btn-show-upload');
+        const btnBackChoice = document.getElementById('btn-back-choice');
+        const captureInput = document.getElementById('capture-input');
+
+        function showFormView() {
+            choiceView.classList.add('hidden');
+            formView.classList.remove('hidden');
+            // Scroll to form smoothly
+            document.getElementById('uploader-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        btnShowUpload.addEventListener('click', showFormView);
+        btnBackChoice.addEventListener('click', () => {
+            formView.classList.add('hidden');
+            choiceView.classList.remove('hidden');
+        });
+
+        // --- Tab Logic ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const tabIndicator = document.getElementById('tab-indicator');
+        let currentTab = 'photos';
+
+        tabBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Move indicator
+                tabIndicator.style.transform = `translateX(${index * 100}%)`;
+
+                // Show content
+                currentTab = btn.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `tab-${currentTab}`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // --- Uploader Logic ---
         const form = document.getElementById('moments-upload-form');
-        const fileInput = document.getElementById('moment-photos');
+        const photosInput = document.getElementById('moment-photos');
+        const videosInput = document.getElementById('moment-videos');
         const statusMsg = document.getElementById('upload-status-message');
         const submitBtn = document.getElementById('upload-btn');
-        const selectionText = document.getElementById('file-selection-text');
+        const photoSelectionText = document.getElementById('file-selection-text');
+        const videoSelectionText = document.getElementById('video-selection-text');
 
-        // Update file count display when files are selected
-        fileInput.addEventListener('change', () => {
-            const count = fileInput.files.length;
-            if (count === 0) {
-                selectionText.textContent = '0 files selected';
-                selectionText.style.color = 'var(--color-text-secondary)';
-            } else if (count === 1) {
-                selectionText.textContent = '1 file selected';
-                selectionText.style.color = 'var(--color-text-secondary)';
-            } else if (count > 5) {
-                selectionText.textContent = `${count} files selected (Max 5 allowed)`;
-                selectionText.style.color = '#D45D79'; // Alert color
-            } else {
-                selectionText.textContent = `${count} files selected`;
-                selectionText.style.color = 'var(--color-text-secondary)';
+        // Handle direct capture input routing
+        captureInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                showFormView(); // Transition to form
+                
+                // Route file to correct tab based on type
+                if (file.type.startsWith('video/')) {
+                    // Switch to video tab
+                    tabBtns[1].click();
+                    
+                    // Assign file to video input using DataTransfer
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    videosInput.files = dataTransfer.files;
+                    
+                    // Trigger change event to run validation
+                    videosInput.dispatchEvent(new Event('change'));
+                } else {
+                    // Default to photos tab
+                    tabBtns[0].click();
+                    
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    photosInput.files = dataTransfer.files;
+                    
+                    photosInput.dispatchEvent(new Event('change'));
+                }
             }
+        });
+
+        // Photo Count Update
+        photosInput.addEventListener('change', () => {
+            const count = photosInput.files.length;
+            if (count === 0) {
+                photoSelectionText.textContent = '0 photos selected';
+                photoSelectionText.style.color = 'var(--color-text-secondary)';
+            } else if (count === 1) {
+                photoSelectionText.textContent = '1 photo selected';
+                photoSelectionText.style.color = 'var(--color-text-secondary)';
+            } else {
+                photoSelectionText.textContent = `${count} photos selected`;
+                photoSelectionText.style.color = 'var(--color-text-secondary)';
+            }
+        });
+
+        // Video Validation & Duration Check
+        videosInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) {
+                videoSelectionText.textContent = '0 videos selected';
+                videoSelectionText.style.color = 'var(--color-text-secondary)';
+                return;
+            }
+
+            videoSelectionText.textContent = 'Checking video...';
+            videoSelectionText.style.color = 'var(--color-text-secondary)';
+
+            // Create temporary video element to check duration
+            const videoElement = document.createElement('video');
+            videoElement.preload = 'metadata';
+            
+            videoElement.onloadedmetadata = function() {
+                window.URL.revokeObjectURL(videoElement.src);
+                const duration = videoElement.duration;
+                
+                if (duration > 300) { // 5 minutes = 300 seconds
+                    alert("Our memories are precious, but please keep videos under 5 minutes.");
+                    videosInput.value = ''; // Clear input
+                    videoSelectionText.textContent = '0 videos selected';
+                    videoSelectionText.style.color = '#D45D79';
+                } else {
+                    // Update text with file name or generic 1 video selected
+                    videoSelectionText.textContent = `1 video selected`;
+                    videoSelectionText.style.color = 'var(--color-text-secondary)';
+                }
+            }
+            
+            videoElement.onerror = function() {
+                // If it fails to load metadata, just allow it and let it pass or fail on upload
+                videoSelectionText.textContent = `1 video selected`;
+                videoSelectionText.style.color = 'var(--color-text-secondary)';
+            }
+            
+            videoElement.src = URL.createObjectURL(file);
         });
 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjKZd3WQ9vp3yCkcFzYn3EKo2dXhMZhBYg9qbt5P5DwrbNoYDzP_CkDzw97nw_xjyyNA/exec";
@@ -576,18 +1079,25 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const files = fileInput.files;
-            if (files.length === 0) return;
-            if (files.length > 5) {
-                statusMsg.textContent = "Please select a maximum of 5 photos at a time.";
+            let files = [];
+            let payloadType = currentTab; // 'photos' or 'videos'
+            
+            if (currentTab === 'photos') {
+                files = photosInput.files;
+            } else {
+                files = videosInput.files;
+            }
+
+            if (files.length === 0) {
+                statusMsg.textContent = `Please select ${currentTab === 'photos' ? 'photos' : 'a video'} to upload.`;
                 statusMsg.style.color = "#D45D79";
                 return;
             }
 
             const uploaderName = document.getElementById('uploader-name').value;
-            submitBtn.innerHTML = '<span class="spinner"></span>Sending Magic to Shevin & Hansani...';
+            submitBtn.innerHTML = '<span class="spinner"></span>Uploading... Preparing Files';
             submitBtn.disabled = true;
-            statusMsg.textContent = `Preparing ${files.length} image(s)...`;
+            statusMsg.textContent = `Processing ${files.length} file(s)...`;
             statusMsg.style.color = "var(--color-text-secondary)";
 
             try {
@@ -628,17 +1138,46 @@
                     });
                 };
 
-                // Read and compress all files
-                const filePromises = Array.from(files).map(file => compressImage(file));
-                const filesData = await Promise.all(filePromises);
+                let filesData = [];
+                
+                if (payloadType === 'photos') {
+                    // Read and compress all photo files
+                    const filePromises = Array.from(files).map(file => compressImage(file));
+                    filesData = await Promise.all(filePromises);
+                } else {
+                    // Read video as Base64 (No compression)
+                    statusMsg.textContent = `Encoding video (this might take a while)...`;
+                    
+                    const readVideo = (file) => {
+                        return new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result.split(',')[1]);
+                            reader.onerror = error => reject(error);
+                            
+                            // Simulate progressive UI for video reading since it's heavy
+                            reader.onprogress = (data) => {
+                                if (data.lengthComputable) {                                            
+                                    const progress = parseInt( ((data.loaded / data.total) * 100), 10 );
+                                    submitBtn.innerHTML = `<span class="spinner"></span>Reading Video... ${progress}%`;
+                                }
+                            }
+                        });
+                    };
+                    
+                    const videoBase64 = await readVideo(files[0]);
+                    filesData = [videoBase64];
+                }
 
                 // Construct payload
                 const payload = {
                     name: uploaderName,
-                    photos: filesData
+                    type: payloadType, // tell script if it's photos or video
+                    photos: filesData // keep key as 'photos' if backend strictly expects it
                 };
 
-                statusMsg.textContent = "Sending to Drive...";
+                submitBtn.innerHTML = '<span class="spinner"></span>Sending to Drive...';
+                statusMsg.textContent = "Uploading to server...";
 
                 // Fetch request to Apps Script with CORS-friendly headers
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
