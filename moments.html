@@ -1073,7 +1073,7 @@
             videoElement.src = URL.createObjectURL(file);
         });
 
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjKZd3WQ9vp3yCkcFzYn3EKo2dXhMZhBYg9qbt5P5DwrbNoYDzP_CkDzw97nw_xjyyNA/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9TkGU_emnY5hm9KY13nFKnfjGHdAV_fxiHLfXENxvCFfLpEzEKmmUS3OKXfqQOaln2w/exec";
         const successOverlay = document.getElementById('upload-success-overlay');
 
         form.addEventListener('submit', async (e) => {
@@ -1172,21 +1172,41 @@
                 // Construct payload
                 const payload = {
                     name: uploaderName,
-                    type: payloadType, // tell script if it's photos or video
-                    photos: filesData // keep key as 'photos' if backend strictly expects it
+                    type: currentTab === 'photos' ? 'image' : 'video',
+                    photos: filesData
                 };
 
                 submitBtn.innerHTML = '<span class="spinner"></span>Sending to Drive...';
                 statusMsg.textContent = "Uploading to server...";
 
-                // Fetch request to Apps Script with CORS-friendly headers
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
-                    redirect: 'follow',
-                    body: JSON.stringify(payload)
+                // XMLHttpRequest to support upload progress
+                await new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+                    xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+                    
+                    // Upload progress event
+                    xhr.upload.onprogress = function(e) {
+                        if (e.lengthComputable) {
+                            const percentComplete = Math.round((e.loaded / e.total) * 100);
+                            submitBtn.innerHTML = `<span class="spinner"></span>Uploading... ${percentComplete}%`;
+                            statusMsg.textContent = "Please wait, sending to server...";
+                        }
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            resolve(xhr.responseText);
+                        } else {
+                            reject(new Error(`HTTP Error: ${xhr.status}`));
+                        }
+                    };
+
+                    xhr.onerror = function() {
+                        reject(new Error("Network Error occurred during upload."));
+                    };
+
+                    xhr.send(JSON.stringify(payload));
                 });
 
                 // Show success overlay
@@ -1194,8 +1214,10 @@
 
                 // Reset Form state
                 form.reset();
-                selectionText.textContent = '0 files selected';
-                selectionText.style.color = 'var(--color-text-secondary)';
+                photoSelectionText.textContent = '0 photos selected';
+                photoSelectionText.style.color = 'var(--color-text-secondary)';
+                videoSelectionText.textContent = '0 videos selected';
+                videoSelectionText.style.color = 'var(--color-text-secondary)';
                 statusMsg.textContent = "";
 
             } catch (error) {
